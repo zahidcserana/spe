@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Spe</title>
@@ -7,7 +8,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
-  <app-root></app-root>
+
+<body onload="myFunction()">
+  <div id="loader" style="position: fixed;top: 50%;left: 50%;" class="spinner-grow" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+
+    <div style="display:none;" id="myDiv" class="animate-bottom">
+      <app-root></app-root>
+    </div>
+
+  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  
 </body>
+
 </html>
+
+<script>
+  var myVar;
+
+  function myFunction() {
+    myVar = setTimeout(showPage, 3000);
+  }
+
+  function showPage() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("myDiv").style.display = "block";
+  }
+</script>

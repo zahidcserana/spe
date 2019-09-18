@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
+import { HomeResolveService } from './services/home-resolve.service';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: './dashboard/dashboard.module#DashboardModule',
+        resolve: { dashboard: HomeResolveService }
       },
       {
         path: 'inventory',
@@ -19,6 +21,7 @@ const routes: Routes = [
       {
         path: 'sale',
         loadChildren: './sale/sale.module#SaleModule',
+        resolve: { companies: HomeResolveService }
       },
       {
         path: 'purchase',

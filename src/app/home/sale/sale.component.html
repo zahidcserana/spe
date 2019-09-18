@@ -1,1 +1,186 @@
-<p>sale works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-header card-header-top">
+        <span class="margin-align-title card-header-title">
+          <div class="font-icon-wrapper font-icon-lg">
+            <i class="fa fa-capsules icon-gradient bg-happy-itmeo"> </i>
+          </div>
+        </span>
+        <form id="myForm" class="form-inline form-width-60" (ngSubmit)="addToCart()">
+          <div class="form-group mb-0 form-control-width-30">
+            <label for="medicine_name" class="sr-only">Medicine </label>
+            <input placeholder="Medicine Name" id="typeahead-basic" name="search" [(ngModel)]="cartItem.medicine"
+              type="text" class="form-control form-input-width-100" [ngbTypeahead]="search"
+              (change)="getAvailableQuantity()" />
+          </div>
+          <div class="form-group mx-sm-3 mb-0 form-control-width-30 input-description-margin">
+            <label for="quantity" class="sr-only">QTY </label>
+            <input type="number" class="form-control form-input-width-100" aria-describedby="AvailableQty" id="quantity"
+              name="quantity" [(ngModel)]="cartItem.quantity" placeholder="Quantity" />
+            <small id="AvailableQty" class="form-text text-muted">
+              Available (
+              <span class="availableQty">{{ availability }} </span> Pcs)
+            </small>
+          </div>
+          <button type="submit" class="btn btn-primary mb-0 add-medicine-btn">
+            Add
+          </button>
+        </form>
+        <br />
+        <br />
+        <div class="btn-actions-pane-right">
+          <i class="pe-7s-cart icon-gradient bg-happy-itmeo"> </i> Sale Medicine
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="table-responsive">
+            <table class="align-middle mb-0 table table-borderless table-striped table-hover table-bordar">
+              <thead class="thead">
+                <tr>
+                  <th class="text-center">#</th>
+                  <th>Name</th>
+                  <th class="text-center">Price(Tk.)</th>
+                  <th class="text-left qty-width">QTY(Pcs)</th>
+                  <th class="text-center">Amount(Tk.)</th>
+                  <th class="text-center"></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="productList && productList?.cart_items?.length > 0; else NoItem">
+                <ng-container *ngFor="let cart of productList?.cart_items; let i = 'index'; trackBy: trackList">
+                  <tr>
+                    <td class="text-center text-muted">{{ i+1 }}</td>
+                    <td>
+                      <div class="widget-content p-0">
+                        <div class="widget-content-wrapper">
+                          <div class="widget-content-left flex2">
+                            <div class="widget-heading">
+                              {{cart.medicine.brand_name}}
+                              <span class="medicine-power">&nbsp;({{ cart.medicine.strength }}, {{ cart.medicine.type }})</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-center">{{ cart.unit_price }}</td>
+                    <td class="text-center">
+                      <div class="quantity clearfix">
+                        <span style="background: black !important;" [ngClass]="{'block-cursor': increament == i}"
+                          class="btn btn-sm btn-dark no-m" (click)="decreaseQuant(cart, i)">-</span>
+                        <span class="cart-qunt btn btn-sm no-m"
+                          style="position: relative;background: #ffffff!important;color: black!important;">{{cart.quantity}}
+                          <div *ngIf="increament == i" class="m-loader m-loader--brand"
+                            style="position: absolute;width: 30px;top:15px; left:10px;"></div>
+                        </span>
+                        <span style="background: black !important;" [ngClass]="{'block-cursor': increament == i}"
+                          class="btn btn-sm btn-dark  no-m" (click)="increaseQuant(cart, i)">+</span>
+                      </div>
+                    </td>
+                    <td class="text-center">{{ cart.sub_total }}</td>
+                    <td class="text-center">
+                      <button (click)="removeItem(cart.id)" id="item_id"
+                        class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i
+                          class="pe-7s-trash btn-icon-wrapper"></i></button>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr class="total_column">
+                  <td colspan="4" class="text-right text-muted text-bold">
+                    Total =
+                  </td>
+                  <td class="text-center">{{ order.sub_total }}/-</td>
+                  <td class="text-center"></td>
+                </tr>
+              </tbody>
+              <ng-template #NoItem>
+                <tbody>
+                  <tr>
+                    <td colspan="9">
+                      <h5 class="text-center">No Item Found</h5>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="row border-div-row">
+            <div class="col-lg-12">
+              <table class="align-middle mb-0 table table-borderless table-striped table-hover table-bordar">
+                <tr class="sub-discount border-table-tr">
+                  <td class="availableQty">Customer Name</td>
+                  <td>
+                      <input id="customer_name" [(ngModel)]="order.customer_name" name="customer_name" type="text"
+                      class="form-control validation-input" placeholder="Customer Name" />
+                  </td>
+                </tr>
+                <tr class="sub-discount border-table-tr">
+                  <td class="availableQty">Mobile</td>
+                  <td>
+                      <input id="customer_mobile" [(ngModel)]="order.customer_mobile" name="customer_mobile" type="text"
+                      class="form-control validation-input" placeholder="Customer Mobile" />
+                  </td>
+                </tr>
+                <tr class="sub-total swatch-holder swatch-holder-lg bg-asteroid">
+                  <td>Total</td>
+                  <td>{{ order.sub_total }} /-</td>
+                </tr>
+                <tr class="sub-discount border-table-tr">
+                  <td class="availableQty">Discount</td>
+                  <td>
+                    <input type="text" class="form-control" id="discount" name="discount" (input)="getNet()"
+                      [(ngModel)]="order.discount">
+                  </td>
+                </tr>
+                <tr class="net-total swatch-holder swatch-holder-lg bg-midnight-bloom">
+                  <td>Net Total(Tk.)</td>
+                  <td>{{ order.total_payble_amount }} /-</td>
+                </tr>
+                <tr class="sub-tax border-table-tr">
+                  <td class="availableQty">Payment Method</td>
+                  <td>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                      <option value="cash">Cash </option>
+                      <option value="Card">Card </option>
+                      <option value="bKash">bKash </option>
+                    </select>
+                  </td>
+                </tr>
+                <tr class="sub-discount border-table-tr">
+                  <td class="availableQty">Tendered</td>
+                  <td>
+                    <input type="text" class="form-control" id="tendered" name="tendered" (input)="getChange()"
+                      [(ngModel)]="order.tendered">
+                  </td>
+                </tr>
+                <tr class="sub-tax border-table-tr tr-due">
+                  <td class="tdCommon">Due</td>
+                  <td class="tdAmount">{{ order.total_due_amount | number:'1.2-2' }} /-</td>
+                </tr>
+                <tr class="sub-tax border-table-tr tr-change">
+                  <td class="tdCommon">Change</td>
+                  <td class="tdAmount">{{ order.change | number:'1.2-2' }} /-</td>
+                </tr>
+                <tr class="submit-background-last border-table-tr">
+                  <td>
+                    <button (click)="reset()" class="btn btn-warning mb-0 sale-cancle submit-cancle-btn">
+                      Cancle
+                    </button>
+                  </td>
+                  <td>
+                    <button (click)="submitOrder()" class="btn btn-primary mb-0 sale-cancle submit-sale-btn">
+                      <i class="ace-icon fa fa-archive bigger-110"></i>
+                      <span>&nbsp;Confirm</span>
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
