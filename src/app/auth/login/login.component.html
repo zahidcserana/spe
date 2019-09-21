@@ -1,0 +1,59 @@
+<div class="app-container app-theme-white body-tabs-shadow">
+  <div class="app-container">
+    <div class="h-100 bg-plum-plate bg-animation">
+      <div class="d-flex h-100 justify-content-center align-items-center">
+        <div class="mx-auto app-login-box col-md-8">
+          <div class="app-logo-inverse mx-auto mb-3"></div>
+          <div class="modal-dialog w-100 mx-auto">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="h5 modal-title text-center">
+                  <h4 class="mt-2">
+                    <div>Smart Pharmacy</div>
+                    <span>ERP</span>
+                  </h4>
+                </div>
+                <form (ngSubmit)="signIn()" #f="ngForm" autocomplete="off">
+                  <div class="form-row">
+                    <div class="col-md-12">
+                      <div class="position-relative form-group">
+                        <input class="form-control" autofocus type="email" placeholder="Email" name="email"
+                          [(ngModel)]="model.email" #email="ngModel" autocomplete="nope" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="position-relative form-group">
+                        <input class="form-control" type="password" placeholder="Password" autocomplete="new-password"
+                          name="password" [(ngModel)]="model.password" #password="ngModel" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="position-relative form-check">
+                    <input name="check" id="exampleCheck" type="checkbox" class="form-check-input">
+                      <label for="exampleCheck" class="form-check-label">Keep me logged in</label>
+                  </div>
+                  <div class="modal-footer clearfix">
+                      <div class="custom-alert" #hasAlert></div>
+                    <div style="display: none" class="float-right spinner-border text-primary" id="spinner-load" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="float-left">
+                      <button class="btn btn-primary btn-lg" type="submit" [disabled]="loading || !f.form.valid"
+                        id="login-btn">
+                        <i class="ace-icon fa fa-key"></i>
+                        <span id="login-span" class="bigger-110">&nbsp;Login</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <a href="http://cerebrumbd.com/">
+            <div class="text-center text-white opacity-8 mt-3">Cerebrum Technology Ltd</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+.footer-logo {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    top: 171%
+}
+
+#remember-me {
+    float: left !important;
+}
