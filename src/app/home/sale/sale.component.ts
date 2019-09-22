@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   debounceTime,
@@ -66,6 +66,8 @@ export class SaleComponent implements OnInit {
   fileName: any;
   orderDetails: any;
   validationStatus: boolean;
+  @ViewChild('cartMedicine', { static: true }) Medicine: ElementRef;
+
   constructor(private saleService: SaleService) { }
 
   ngOnInit() {
@@ -75,6 +77,9 @@ export class SaleComponent implements OnInit {
     if (this.cartItem.token !== '') {
       this.checkToken(this.cartItem.token);
     }
+  }
+  ngAfterViewInit() {
+    this.Medicine.nativeElement.focus();
   }
   checkToken(token) {
     this.saleService.checkCart(this.cartItem.token)
@@ -176,6 +181,7 @@ export class SaleComponent implements OnInit {
   }
   addToCart() {
     if (this.cartItem.medicine) {
+      this.getMedicineId();
       const token = localStorage.getItem("token");
       this.cartItem.token = token ? token : "";
 
@@ -183,6 +189,7 @@ export class SaleComponent implements OnInit {
         .addtoCart(this.cartItem)
         .then(res => {
           if (res.success === true) {
+            this.Medicine.nativeElement.focus();
             this.saleService.saveCartsInlocalStorage(res.data);
             localStorage.setItem("token", res.data.token);
             this.productList = res.data;
@@ -233,15 +240,18 @@ export class SaleComponent implements OnInit {
       .subscribe(data => (this.batchList = data));
   }
   getAvailableQuantity() {
+    this.getMedicineId();
+    this.availableQuantity.medicine_id = this.cartItem.medicine_id;
+    this.saleService
+      .getAvailableQuantity(this.availableQuantity)
+      .subscribe(data => (this.availability = data.available_quantity));
+  }
+  getMedicineId() {
     for (let s of this.searchData) {
       if (s.name == this.cartItem.medicine) {
         this.cartItem.medicine_id = s.id;
       }
     }
-    this.availableQuantity.medicine_id = this.cartItem.medicine_id;
-    this.saleService
-      .getAvailableQuantity(this.availableQuantity)
-      .subscribe(data => (this.availability = data.available_quantity));
   }
   decreaseQuant(cart, i) {
     if (cart.quantity > 1) {
@@ -343,15 +353,15 @@ export class SaleComponent implements OnInit {
       this.order.discount = (this.order.sub_total / 100) * this.order.discount_amount;
     }
   }
-  validationCheck(){
+  validationCheck() {
     this.validationStatus = true;
-    if(!this.order.tendered){
+    if (!this.order.tendered) {
       this.validationStatus = false;
       $("#tendered").addClass("invalid-input");
     }
 
-    if(this.order.total_due_amount){
-      if(!this.order.customer_mobile){
+    if (this.order.total_due_amount) {
+      if (!this.order.customer_mobile) {
         this.validationStatus = false;
         $("#customer_mobile").addClass("invalid-input");
       }
