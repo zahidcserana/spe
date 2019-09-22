@@ -170,7 +170,7 @@ font-weight: 700;
 .tdCommon{
   color: #000000;
   font-weight: 700;
-  padding-top: 0.2rem!important;
+  padding-top: 0.45rem!important;
   padding-bottom: 0.2rem!important;
 }
 .tdAmount {
@@ -180,11 +180,24 @@ font-weight: 700;
   padding-top: 0.1rem!important;
   padding-bottom: 0.1rem!important;
 }
+.tdLabel{
+  color: white;
+  font-weight: 700;
+  padding-top: 0.45rem!important;
+  padding-bottom: 0.2rem!important;
+}
+.tdValue {
+  font-size: 24px;
+  color: white!important;
+  font-weight: bold;
+  padding-top: 0.1rem!important;
+  padding-bottom: 0.1rem!important;
+}
 .tdDue{
-  background-color: red!important;
+  background-color:#ff000059!important;
 }
 .tdChange{
-  background-color: green!important;
+  background-color: #00800091!important;
 }
 .input-description-margin{
 margin-top: 20px !important;
@@ -219,7 +232,10 @@ border: 5px solid #cacaca;
 .widget-content .widget-content-left .widget-heading {
   opacity: .8;
   font-weight: bold;
-  font-size: 24px;
+}
+.invalid-input {
+  border-style: solid;
+  border-color: red;
 }
 /* @media (max-width: 990px) {
 .nav-bar-width {

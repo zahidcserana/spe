@@ -36,6 +36,8 @@ export class SaleComponent implements OnInit {
     total_advance_amount: 0,
     total_payble_amount: 0,
     discount: 0,
+    discount_type: 'fixed',
+    discount_amount: 0,
     payment_type: 'cash',
     customer_name: '',
     customer_mobile: '',
@@ -63,6 +65,7 @@ export class SaleComponent implements OnInit {
   increament: any;
   fileName: any;
   orderDetails: any;
+  validationStatus: boolean;
   constructor(private saleService: SaleService) { }
 
   ngOnInit() {
@@ -146,7 +149,14 @@ export class SaleComponent implements OnInit {
     this.order.customer_mobile = '';
   }
   getNet() {
-    this.order.total_payble_amount = this.order.sub_total ? this.order.sub_total - this.order.discount : 0;
+    this.order.total_payble_amount = this.order.sub_total ? this.order.sub_total - this.order.discount_amount : 0;
+    if (this.order.discount_type === 'fixed') {
+      console.log('fixed');
+      this.order.discount = this.order.discount_amount;
+    } else {
+      console.log('paecentage');
+      this.order.discount = (this.order.sub_total / 100) * this.order.discount_amount;
+    }
   }
   getChange() {
     this.order.change = this.checkIsLessZero(this.order.tendered ? this.order.tendered - this.order.total_payble_amount : 0);
@@ -322,8 +332,35 @@ export class SaleComponent implements OnInit {
         this.increament = null;
       });
   }
+  getDiscount(type = null) {
+    if (type == 'fixed') {
+      $('#dicountValue').hide();
+      console.log('fixed');
+      this.order.discount = this.order.discount_amount;
+    } else {
+      $('#dicountValue').show();
+      console.log('paecentage');
+      this.order.discount = (this.order.sub_total / 100) * this.order.discount_amount;
+    }
+  }
+  validationCheck(){
+    this.validationStatus = true;
+    if(!this.order.tendered){
+      this.validationStatus = false;
+      $("#tendered").addClass("invalid-input");
+    }
+
+    if(this.order.total_due_amount){
+      if(!this.order.customer_mobile){
+        this.validationStatus = false;
+        $("#customer_mobile").addClass("invalid-input");
+      }
+    }
+
+    return this.validationStatus;
+  }
   submitOrder() {
-    if (this.order.tendered) {
+    if (this.validationCheck()) {
       this.order.token = localStorage.getItem('token');
       console.log(this.order);
       this.saleService.makeSaleOrder(this.order).then(
@@ -332,6 +369,7 @@ export class SaleComponent implements OnInit {
             this.orderId = res.data.order_id;
             this.orderDetails = res.data;
             this.fileName = '';
+            $(".validation-input").removeClass("invalid-input");
             Swal.fire({
               position: "center",
               type: "success",

@@ -12,7 +12,7 @@
             <label for="medicine_name" class="sr-only">Medicine </label>
             <input placeholder="Medicine Name" id="typeahead-basic" name="search" [(ngModel)]="cartItem.medicine"
               type="text" class="form-control form-input-width-100" [ngbTypeahead]="search"
-              (change)="getAvailableQuantity()" />
+              (change)="getAvailableQuantity()" autofocus/>
           </div>
           <div class="form-group mx-sm-3 mb-0 form-control-width-30 input-description-margin">
             <label for="quantity" class="sr-only">QTY </label>
@@ -50,14 +50,16 @@
               <tbody *ngIf="productList && productList?.cart_items?.length > 0; else NoItem">
                 <ng-container *ngFor="let cart of productList?.cart_items; let i = 'index'; trackBy: trackList">
                   <tr>
-                    <td class="text-center text-muted">{{ i+1 }}</td>
+                    <td class="text-center text-muted">{{ i+1 }}.</td>
                     <td>
                       <div class="widget-content p-0">
                         <div class="widget-content-wrapper">
                           <div class="widget-content-left flex2">
                             <div class="widget-heading">
-                              {{cart.medicine.brand_name}}
-                              <span class="medicine-power">&nbsp;({{ cart.medicine.strength }}, {{ cart.medicine.type }})</span>
+                                {{ cart.medicine.type }}. {{cart.medicine.brand_name}}
+                              <span class="medicine-power">&nbsp;({{ cart.medicine.strength }})</span>
+                              <br>
+                                <small>{{ cart.company.name }}</small>
                             </div>
                           </div>
                         </div>
@@ -124,19 +126,36 @@
                   </td>
                 </tr>
                 <tr class="sub-total swatch-holder swatch-holder-lg bg-asteroid">
-                  <td>Total</td>
-                  <td>{{ order.sub_total }} /-</td>
+                  <td class="tdLabel">Sub Total</td>
+                  <td class="tdValue">{{ order.sub_total }} /-</td>
                 </tr>
-                <tr class="sub-discount border-table-tr">
-                  <td class="availableQty">Discount</td>
-                  <td>
-                    <input type="text" class="form-control" id="discount" name="discount" (input)="getNet()"
-                      [(ngModel)]="order.discount">
+                <tr class="sub-discount">
+                  <td class="availableQty">Discount
+                      <div>
+                          <div class="position-relative form-check">
+                            <label class="form-check-label">
+                              <input value="fixed" [(ngModel)]="this.order.discount_type" name="discount_type" type="radio" class="form-check-input" checked (click)="getDiscount('fixed')">
+                              Fixed
+                            </label>
+                          </div>
+                          <div class="position-relative form-check">
+                            <label class="form-check-label">
+                              <input value="parcentage" [(ngModel)]="this.order.discount_type" name="discount_type" type="radio" class="form-check-input" (click)="getDiscount('parcentage')">
+                              parcentage
+                            </label>
+                          </div>
+                      </div>
                   </td>
+                  <td style="width: 50%">
+                    <input type="text" class="form-control" id="discount" name="discount" (input)="getNet()"
+                      [(ngModel)]="order.discount_amount" style="width: 50%">
+                      <h5 style="display: none" id="dicountValue">{{ order.discount | number:'1.2-2' }} /-</h5>
+                  </td>
+
                 </tr>
                 <tr class="net-total swatch-holder swatch-holder-lg bg-midnight-bloom">
-                  <td>Net Total(Tk.)</td>
-                  <td>{{ order.total_payble_amount }} /-</td>
+                  <td class="tdLabel">Net Total(Tk.)</td>
+                  <td class="tdValue">{{ order.total_payble_amount }} /-</td>
                 </tr>
                 <tr class="sub-tax border-table-tr">
                   <td class="availableQty">Payment Method</td>
@@ -151,7 +170,7 @@
                 <tr class="sub-discount border-table-tr">
                   <td class="availableQty">Tendered</td>
                   <td>
-                    <input type="text" class="form-control" id="tendered" name="tendered" (input)="getChange()"
+                    <input type="text" class="form-control validation-input" id="tendered" name="tendered" (input)="getChange()"
                       [(ngModel)]="order.tendered">
                   </td>
                 </tr>
