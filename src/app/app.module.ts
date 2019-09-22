@@ -12,6 +12,7 @@ import { HomeService } from './home/services/home.service';
 import { HomeResolveService } from './home/services/home-resolve.service';
 import { AuthGuard } from './auth/auth-guard.service';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
+import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PageNotFoundComponent } from './common/page-not-found/page-not-found.co
     LoginModule,
     AlertModule.forRoot({main: 'something'}),
     HttpWithInjectorModule.forRoot({endPoint: ''}),
+    KeyboardShortcutsModule.forRoot()
 
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard, HomeService, HomeResolveService],

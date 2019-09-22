@@ -29,13 +29,13 @@ export class SaleComponent implements OnInit {
   isAntibiotic = false;
   order: any = {
     token: '',
-    sub_total: '',
+    sub_total: 0,
     tendered: '',
     change: 0,
     total_due_amount: 0,
     total_advance_amount: 0,
     total_payble_amount: 0,
-    discount: 0,
+    discount: '',
     discount_type: 'fixed',
     discount_amount: 0,
     payment_type: 'cash',
