@@ -23,6 +23,9 @@ export class SaleService {
   updateCart(data) {
     return this.http.post("carts/quantity-update", data).toPromise();
   }
+  updateItemPrice(data) {
+    return this.http.post("carts/price-update", data).toPromise();
+  }
   checkCart(token: any) {
     return this.http.get(`carts/${token}/check`).pipe(map(res => res));
   }

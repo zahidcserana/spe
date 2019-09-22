@@ -52,6 +52,10 @@ export class SaleComponent implements OnInit {
   batchSearch = {
     medicine_id: ""
   };
+  priceUpdate = {
+    item_id: '',
+    item_price: ''
+  }
   availableQuantity = {
     medicine_id: ""
   };
@@ -252,6 +256,53 @@ export class SaleComponent implements OnInit {
         this.cartItem.medicine_id = s.id;
       }
     }
+  }
+
+  updateItemPrice(cart, i) {
+    this.priceUpdate.item_id = cart.id;
+    this.priceUpdate.item_price = $('#unit_price_' + i).val();
+    this.saleService
+      .updateItemPrice(this.priceUpdate)
+      .then(res => {
+        if (res.success === true) {
+          this.productList = res.data;
+          this.isAntibiotic = res.data.is_antibiotic;
+          this.order.sub_total = this.productList
+            ? this.productList.sub_total
+            : 0;
+          this.order.total_payble_amount = this.productList
+            ? this.productList.sub_total - this.productList.discount
+            : 0;
+          this.saleService.saveCartsInlocalStorage(res.data);
+          // $("custom-alert").css("display", "block");
+          // this.alertS.success(
+          //   this.alertContainer,
+          //   "Cart Updated Successfully",
+          //   true,
+          //   3000
+          // );
+        } else {
+          // $("custom-alert").css("display", "block");
+          // this.alertS.error(
+          //   this.alertContainer,
+          //   "Something wrong !! Please try again ",
+          //   true,
+          //   3000
+          // );
+        }
+        this.increament = null;
+      })
+      .catch(err => {
+        console.log(err);
+        // $("custom-alert").css("display", "block");
+        // this.alertS.error(
+        //   this.alertContainer,
+        //   "Something wrong !! Please try again",
+        //   true,
+        //   3000
+        // );
+        this.increament = null;
+      });
   }
   decreaseQuant(cart, i) {
     if (cart.quantity > 1) {
