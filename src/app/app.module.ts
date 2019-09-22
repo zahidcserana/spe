@@ -26,7 +26,6 @@ import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
     AlertModule.forRoot({main: 'something'}),
     HttpWithInjectorModule.forRoot({endPoint: ''}),
     KeyboardShortcutsModule.forRoot()
-
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard, HomeService, HomeResolveService],
   bootstrap: [AppComponent]
