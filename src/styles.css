@@ -7897,7 +7897,7 @@ a,button,.btn{
   font-size:.8rem
 }
 .app-header__logo{
-  padding:0 1.5rem;
+  padding:0 1rem;
   height:60px;
   width:280px;
   display:flex;
@@ -7905,8 +7905,8 @@ a,button,.btn{
   transition:width .2s
 }
 .app-header__logo .logo-src{
-  height:23px;
-  width:97px;
+  height: 40px;
+  width: 195px;
   background:url(assets/images/smart_pharmacy.png)
 }
 .app-header__menu,.app-header__mobile-menu{
@@ -8463,7 +8463,7 @@ a,button,.btn{
   overflow:hidden !important
 }
 .closed-sidebar:not(.closed-sidebar-mobile) .app-header .app-header__logo{
-  width:80px
+  width:240px
 }
 
 .closed-sidebar:not(.closed-sidebar-mobile) .app-header .app-header__logo .header__pane{
