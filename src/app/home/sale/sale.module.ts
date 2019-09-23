@@ -6,6 +6,7 @@ import { SaleComponent } from './sale.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SaleService } from '../services/sale.service';
 import { FormsModule } from '@angular/forms';
+import { SaleListModule } from './sale-list/sale-list.module';
 
 
 @NgModule({
@@ -14,8 +15,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     SaleRoutingModule,
-    NgbModule
+    NgbModule,
+    SaleListModule
   ],
-  providers: [SaleService]
 })
 export class SaleModule { }

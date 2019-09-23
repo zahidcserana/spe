@@ -1,0 +1,215 @@
+<div class="app-page-title">
+  <div class="page-title-wrapper">
+    <div class="page-title-heading">
+      <div class="page-title-icon">
+        <i class="pe-7s-monitor icon-gradient bg-mean-fruit"> </i>
+      </div>
+      <div>
+        Smart Pharmacy ERP
+        <small>
+          <a routerLink="/sale/list">
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Sale List
+          </a>
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Sale List</h5>
+        <table class="mb-0 table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Invoice</th>
+              <th>Customer Name</th>
+              <th>Customer Mobile</th>
+              <th>Amount</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="dataList.length > 0; else emptyData">
+            <tr
+              *ngFor="
+                let item of dataList;
+                trackBy: trackList;
+                let i = index;
+                let e = even;
+                let o = odd
+              "
+              [ngClass]="{ odd: o, even: e }"
+            >
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.created_at | date: "MMM d, y, h:mm:ss a" }}</td>
+              <td>{{ item.invoice }}</td>
+              <td>{{ item.customer_name }}</td>
+              <td>{{ item.customer_mobile }}</td>
+              <td>{{ item.total_payble_amount }}</td>
+              <td>
+                <a
+                  (click)="openModal(item.id, 'sale-modal')"
+                  id="item_id"
+                  class="btn btn-danger btn-sm"
+                  ><i class="fa fa-eye"></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+          <ng-template #emptyData>
+            <tbody>
+              <tr>
+                <td colspan="6">Empty data</td>
+              </tr>
+            </tbody>
+          </ng-template>
+        </table>
+        <boot-pagination
+          style="width: 100%"
+          [totalSize]="pagi.total"
+          [listSize]="pagi.limit"
+          (pageChange)="reloadTable($event)"
+        >
+        </boot-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<jw-modal id="sale-modal" class="data-view-modal">
+  <div class="row">
+    <div *ngIf="orderDetails" class="col-md-12">
+      <header class="clearfix" style="margin-bottom: 0;">
+        <div id="logo">
+          <span class="pharmacy">Item Return</span>
+        </div>
+      </header>
+      <main>
+        <form
+          *ngIf="saleItem"
+          class="form-inline"
+          id="myForm"
+          (ngSubmit)="submitReturn()"
+        >
+          <div class="form-group mx-sm-3 mb-2">
+            <input
+              id="typeahead-company"
+              value="{{ saleItem.company }}"
+              readonly
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <input
+              id="typeahead-company"
+              value="{{ saleItem.medicine }}"
+              readonly
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <select
+              class="form-control"
+              name="unit_type"
+              id="unit_type"
+              [(ngModel)]="returnItem.unit_type"
+            >
+              <option value="PCS">PCS</option>
+              <option value="STRIP">STRIP</option>
+              <option value="BOX">BOX</option>
+            </select>
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <input
+              type="number"
+              id="form-field-1-2"
+              name="new_quantity"
+              [(ngModel)]="returnItem.new_quantity"
+              placeholder="Quantity"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <button style="display: none" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+        <table class="preview">
+          <thead>
+            <tr>
+              <th style="width:10%" class="sl">Sl</th>
+              <th style="width:40%; text-align: left">DESCRIPTION</th>
+              <th style="width:10%">QTY</th>
+              <th style="width:20%">UNIT</th>
+              <th style="width:20%">ACTION</th>
+            </tr>
+          </thead>
+          <tbody
+            *ngIf="
+              orderDetails && orderDetails?.order_items.length > 0;
+              else emptyData
+            "
+          >
+            <ng-container
+              *ngFor="
+                let item of orderDetails?.order_items;
+                let i = index;
+                trackBy: trackList
+              "
+            >
+              <tr>
+                <td class="sl">{{ i + 1 }}</td>
+                <td style="text-align: left">
+                  {{ item.medicine }} ({{ item.medicine_power }},
+                  {{ item.medicine_type }}), : {{ item.quantity }}&nbsp;{{
+                    item.unit_type
+                  }}
+                </td>
+                <td class="qty">
+                  {{ item.quantity }}
+                </td>
+                <td class="qty">
+                  {{ item.unit_type }}
+                </td>
+                <td class="actions">
+                  <a (click)="itemReturn(item)" class="btn btn-info btn-sm"
+                    ><i class="fa fa-eye"></i
+                  ></a>
+                  &nbsp;
+                  <a
+                    (click)="removeItem(item)"
+                    id="item_id"
+                    class="btn btn-danger btn-sm"
+                    ><i class="fa pe-7s-trash"></i
+                  ></a>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+          <ng-template #emptyData>
+            <tbody>
+              <tr>
+                <td colspan="7">
+                  <h5 class="text-center">No Item Found</h5>
+                </td>
+              </tr>
+            </tbody>
+          </ng-template>
+        </table>
+      </main>
+    </div>
+  </div>
+  <button
+    id="close-div"
+    style="width: 7%;margin-left: 93%;"
+    (click)="closeModal('sale-modal')"
+    class="btn btn-warning btn-xs"
+  >
+    Close
+  </button>
+</jw-modal>

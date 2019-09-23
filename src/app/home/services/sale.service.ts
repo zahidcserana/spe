@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class SaleService {
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
   addtoCart(data: any) {
     return this.http.post("carts/add-to-cart", data).toPromise();
   }
@@ -37,5 +37,17 @@ export class SaleService {
   }
   makeSaleOrder(data: any) {
     return this.http.post('orders/sale', data).toPromise();
+  }
+  getSaleList(p, l, query?) {
+    const params = query ? query : '';
+    return this.http
+      .get(`sales?page_no=${p ? p : 1}&limit=${l ? l : 20}${params}`)
+      .pipe(map(res => res));
+  }
+  returnItem(data) {
+    return this.http.post('orders/sale/return-item', data).toPromise();
+  }
+  deleteItem(item_id) {
+    return this.http.post('orders/sale/delete-item', { item_id: item_id }).toPromise();
   }
 }
