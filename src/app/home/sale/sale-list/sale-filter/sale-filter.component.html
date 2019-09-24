@@ -45,11 +45,13 @@
           <div class="col-md-3 col-sm-6">
             <div class="form-group m-form__group">
               <input
+                autocomplete="off"
                 type="text"
-                placeholder="Datepicker"
+                placeholder="Date Range"
                 class="form-control"
                 bsDaterangepicker
-                [(ngModel)]="dateRangeValue"
+                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                [(ngModel)]="saleData.sale_date"
                 name="sale_date"
               />
             </div>

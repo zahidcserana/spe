@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FORMAT_SEARCH } from 'src/app/common/_classes/functions';
 import { SaleFilterModel } from 'src/app/home/models/sale.model';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { DatePipe } from '@angular/common';
 
 
 declare let $: any;
@@ -23,10 +24,15 @@ export class SaleFilterComponent implements OnInit {
   sub: Subscription;
   @Output('loadList') loadList: EventEmitter<string> = new EventEmitter();
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private datePipe: DatePipe,
+    ) {
     this.nextDate.setDate(this.nextDate.getDate() + 7);
-    this.dateRangeValue= [new Date(), this.nextDate];
+    this.dateRangeValue = [new Date(), this.nextDate];
     this.saleData = new SaleFilterModel();
+    this.saleData.sale_date = [new Date(), this.nextDate];
+
     this.sub = this.route.paramMap.subscribe(
       val => {
         this.reset();
@@ -39,7 +45,13 @@ export class SaleFilterComponent implements OnInit {
   ngAfterViewInit() {
     // this._dateRange();
   }
-
+  dateFormate() {
+    let dateRange = [];
+    for (let d of this.saleData.sale_date) {
+      dateRange.push(this.datePipe.transform(new Date(d),"yyyy-MM-dd"));
+    }
+    this.saleData.sale_date = dateRange;
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
@@ -57,6 +69,11 @@ export class SaleFilterComponent implements OnInit {
     this.saleData.date_end = null;
   }
   searchSaleData() {
+    console.log('sale_date');
+    console.log(this.saleData.sale_date);
+    this.dateFormate();
+    console.log(this.saleData.sale_date);
+
     this.filter = FORMAT_SEARCH(this.saleData);
     if (this.filter) {
       this.loadList.emit(this.filter);

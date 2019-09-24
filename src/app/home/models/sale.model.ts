@@ -18,7 +18,7 @@ export class SaleFilterModel {
   total_payble_amount: number;
   created_at: string;
   invoice: string;
-  sale_date: string;
+  sale_date: Date[];
   date_start: string;
   date_end: string;
 }
