@@ -21,7 +21,7 @@ export class SaleListComponent implements OnInit {
     sale_id: '',
     item_id: '',
     new_quantity: 0,
-    unit_type: '',
+    unit_type: 'PCS',
   };
   saleItem: any;
   constructor(

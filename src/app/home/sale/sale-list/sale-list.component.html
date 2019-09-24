@@ -85,10 +85,14 @@
     <div *ngIf="orderDetails" class="col-md-12">
       <header class="clearfix" style="margin-bottom: 0;">
         <div id="logo">
-          <span class="pharmacy">Item Return</span>
+          <span class="pharmacy">Sales Return</span>
         </div>
       </header>
       <main>
+        <div style="text-align: center;padding-bottom: 1%">
+          <span style="padding-right: 2%">Invoice: 13213213213</span>
+          <span style="padding-left: 2%">Date: 2018-08-18</span>
+        </div>
         <form
           *ngIf="saleItem"
           class="form-inline"
@@ -113,7 +117,7 @@
               class="form-control"
             />
           </div>
-          <div class="form-group mx-sm-3 mb-2">
+          <!-- <div class="form-group mx-sm-3 mb-2">
             <select
               class="form-control"
               name="unit_type"
@@ -124,7 +128,7 @@
               <option value="STRIP">STRIP</option>
               <option value="BOX">BOX</option>
             </select>
-          </div>
+          </div> -->
           <div class="form-group mx-sm-3 mb-2">
             <input
               type="number"
@@ -133,10 +137,13 @@
               [(ngModel)]="returnItem.new_quantity"
               placeholder="Quantity"
               class="form-control"
+              style="width: 50%"
             />
           </div>
           <div class="form-group mx-sm-3 mb-2">
-            <button style="display: none" type="submit" class="btn btn-primary">Save</button>
+            <button style="display: none" type="submit" class="btn btn-primary">
+              Save
+            </button>
           </div>
         </form>
         <table class="preview">

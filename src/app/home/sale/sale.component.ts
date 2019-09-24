@@ -35,7 +35,7 @@ export class SaleComponent implements OnInit {
     total_due_amount: 0,
     total_advance_amount: 0,
     total_payble_amount: 0,
-    discount: '',
+    discount: 0,
     discount_type: 'fixed',
     discount_amount: 0,
     payment_type: 'cash',
