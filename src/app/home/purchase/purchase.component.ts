@@ -61,7 +61,7 @@ export class PurchaseComponent implements OnInit {
     vat: "",
     vat_percentage: "fixed",
     discount: "",
-    net_amount: "",
+    net_amount: 0,
     advance: "",
     due: "",
     invoice: "",
@@ -124,32 +124,56 @@ export class PurchaseComponent implements OnInit {
       'details': this.purchaseDetails,
       'items': this.allPurchaseItems
     }
-    console.log(allParams);
 
-
-    this.PurchaseService.submitItem(allParams)
-    .then(response => {
-
-      // this.rows.removeAt(index);
-      // this.rows.push(this.pushItemFormGroup(item));
-
-      // var storageItem = JSON.parse(localStorage.getItem('orderItems'));
-      // storageItem[index] = item;
-      // localStorage.setItem('orderItems',JSON.stringify(storageItem));
-
-      // //this.updateOrderInformation();
-
-      // var order_id = this.orderId;
-      // this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
-      //   this.router.navigate(['orders/items/', order_id ])
-      // );
-      
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success modal-button',
+        cancelButton: 'btn btn-danger modal-button'
+      },
+      buttonsStyling: false
     })
-    .catch(err => {
-      console.log(err)
+    
+    swalWithBootstrapButtons.fire({
+      title: 'Do you want submit details?',
+      text: "Please check all the details!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+
+      if (result.value) {
+
+        this.PurchaseService.submitItem(allParams)
+        .then(response => {
+
+          localStorage.removeItem("purchaseItems");
+          $("#typeahead-basic").focus();
+          this.purchaseDetails = {};
+          this.purchaseDetails.vat_percentage = 'fixed';
+          this.purchaseItem = {};
+          this.purchaseItem.net_amount = 0;
+          this.allPurchaseItems = [];
+
+          swalWithBootstrapButtons.fire(
+            'Purchase details submitted successful!',
+            'Successful!',
+            'success'
+          );
+      
+        })
+        .catch(err => {
+          console.log(err)
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          '',
+          'error'
+        );
+      }
     });
-
-
   }
 
   calculateVat(){
