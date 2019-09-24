@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SaleService } from '../services/sale.service';
 import { FormsModule } from '@angular/forms';
 import { SaleListModule } from './sale-list/sale-list.module';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SaleListModule } from './sale-list/sale-list.module';
     FormsModule,
     SaleRoutingModule,
     NgbModule,
-    SaleListModule
+    SaleListModule,
+    BsDatepickerModule.forRoot(),
   ],
 })
 export class SaleModule { }

@@ -279,7 +279,7 @@ margin-top: 153px !important;
 
 .data-view-modal .pharmacy {
   color: #5d6975;
-  font-size: 2em;
+  font-size: 1.6em;
   line-height: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -303,7 +303,7 @@ table.preview {
 }
 
 table.preview th {
-  padding: 5px 20px;
+  padding: 5px 0;
   color: #5d6975;
   border-bottom: 1px solid #c1ced9;
   white-space: nowrap;
@@ -324,5 +324,32 @@ table.preview td.qty,
 table.preview td.total {
   font-size: 1.2em;
 }
+/* PDF Modal */
+.data-view-modal h1.pdf-div {
+  border-top: 1px solid #5d6975;
+  border-bottom: 1px solid #5d6975;
+  color: #5d6975;
+  font-size: .9em;
+  line-height: 1.8em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 20px 0;
+  background: url("/assets/images/dimension.png");
+}
 
+.data-view-modal #print-div {
+  margin-top: 1%;
+}
+.data-view-modal #print-button {
+  width: 7%;
+  left: 50%;
+}
+.data-view-modal #close-button {
+  width: 7%;
+  float: right;
+}
+.data-view-modal div#customer-info,
+.data-view-modal div#pharmacy-info  {
+  flex: 1;
+}
 /* data-view-modal end */

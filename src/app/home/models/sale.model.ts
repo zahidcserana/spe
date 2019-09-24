@@ -12,3 +12,13 @@ export class SaleModel {
   created_at: string;
   invoice: string;
 }
+export class SaleFilterModel {
+  customer_name: string;
+  customer_mobile: string;
+  total_payble_amount: number;
+  created_at: string;
+  invoice: string;
+  sale_date: string;
+  date_start: string;
+  date_end: string;
+}

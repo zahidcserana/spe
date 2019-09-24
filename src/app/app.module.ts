@@ -13,6 +13,8 @@ import { HomeResolveService } from './home/services/home-resolve.service';
 import { AuthGuard } from './auth/auth-guard.service';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
     LoginModule,
     AlertModule.forRoot({main: 'something'}),
     HttpWithInjectorModule.forRoot({endPoint: ''}),
-    KeyboardShortcutsModule.forRoot()
+    BrowserAnimationsModule,
+    KeyboardShortcutsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard, HomeService, HomeResolveService],
   bootstrap: [AppComponent]

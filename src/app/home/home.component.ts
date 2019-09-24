@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   getSettings() {
     Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');
     Helpers.loadStyles('head', 'assets/css/custom.css');
+    Helpers.loadStyles('head', 'assets/css/bs-datepicker.css');
 
     this._script.loadScripts('body', [
       'assets/js/main.js',
