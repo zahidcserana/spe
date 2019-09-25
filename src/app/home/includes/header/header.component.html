@@ -10,19 +10,19 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                  <li *ngIf="['ADMIN'].includes(user.user_type)" class="nav-item">
+                  <li *ngIf="checkAcl('dashboard')" class="nav-item">
                         <a routerLink="/" class="nav-link"><i class="nav-link-icon pe-7s-home"></i> Dashboard </a>
                     </li>
-                  <li class="nav-item">
+                  <li *ngIf="checkAcl('purchase')" class="nav-item">
                       <a routerLink="/purchase" class="nav-link"><i class="nav-link-icon fa fa-database"> </i> Purchase </a>
                   </li>
-                  <li *ngIf="['ADMIN','PHARMACYCOUNTER'].includes(user.user_type)" class="nav-item">
+                  <li *ngIf="checkAcl('sale')" class="nav-item">
                       <a routerLink="/sale" class="nav-link"><i class="nav-link-icon fa fa-cart-plus"></i> Sale </a>
                   </li>
-                  <li *ngIf="getAcl('sale-due')" class="nav-item">
+                  <li *ngIf="checkAcl('due')" class="nav-item">
                       <a routerLink="/sale-due" class="nav-link"><i class="nav-link-icon fa fa-bug"></i> Sale Due </a>
                   </li>
-                  <li class="nav-item">
+                  <li *ngIf="checkAcl('report')" class="nav-item">
                       <a href="#" class="nav-link"><i class="nav-link-icon fa fa-cog"></i> Report </a>
                   </li>
                   <li class="nav-item">
