@@ -28,6 +28,8 @@ export class HomeResolveService implements Resolve<any> {
                 return this.service.getCompanies();
             case 'inventory':
                 return this.service.getCompanies();
+            case 'products':
+                return this.service.getCompanies();
         }
     }
 

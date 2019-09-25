@@ -1,1 +1,69 @@
-<p>inventory works!</p>
+<div class="col-md-12">
+  <div class="main-card mb-3 card">
+    <div class="card-header card-header-top">
+      <span class="margin-align-title card-header-title">
+        <div class="font-icon-wrapper font-icon-lg">
+          <i class="fa fa-capsules icon-gradient bg-happy-itmeo"> </i> Inventory List
+        </div>
+      </span>
+      <div class="btn-actions-pane-right">
+        <i class="pe-7s-cart icon-gradient bg-happy-itmeo"> </i> Inventory List
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12">
+            <form id="myForm" class="form-inline form-width-100" (ngSubmit)="filterList()">
+              <div class="position-relative form-group">
+                <label for="company" class="label-margin-right"> Company </label>
+                <select class="ace form-control" name="company" [(ngModel)]="filterItem.company">
+                  <option value="0">Select Company</option>
+                  <option *ngFor="let company of companyList" value="{{ company.id }}">{{ company.name }}</option>
+                </select>
+              </div>
+              <div class="position-relative form-group search-div">
+                <label for="medicine" class="label-margin-right"> Medicine </label>
+                <input id="typeahead-basic" name="search" [(ngModel)]="filterItem.medicine" placeholder="" type="text" [ngbTypeahead]="search" class="form-control">
+              </div>
+              <div class="position-relative form-group search-div">
+                <label for="quantity" class="label-margin-right"> Quantity </label>
+                <input name="quantity" [(ngModel)]="filterItem.quantity" id="quantity" placeholder="" type="number" class="form-control">
+              </div>
+              <button type="button" (click)="filterList()" class="btn btn-primary mb-0 filter-medicine-btn">
+                Filter
+              </button>
+              <button type="button" (click)="resetList()" class="btn btn-primary mb-0 reset-medicine-btn">
+                Reset
+              </button>
+            </form>
+            <br/>
+        </div>
+        <div class="col-lg-12">
+          <table class="mb-0 table table-hover">
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Medicine</th>
+                  <th>M.R.P. (Tk.)</th>
+                  <th>QTY (Pcs)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of inventoryList; let i='index';">
+                  <td>{{ i+1 }}</td>
+                  <td style="text-align: left;">
+                    {{ item.medicine_type | slice:0:3 }}. {{ item.medicine_name }}
+                    <span class="small">({{ item.strength }}) {{ item.generic }}<br/>{{ item.company_name }}</span>
+                  </td>
+                  <td>{{ item.mrp }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <!--<td><button (click)="openModal(item.order_id, 'print-modal')" id="order_id" class="mr-2 btn-icon btn-icon-only btn btn-outline-info"><i class="pe-7s-note2 btn-icon-wrapper"> </i></button></td>-->
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

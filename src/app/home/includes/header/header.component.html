@@ -12,7 +12,7 @@
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                   <li *ngIf="checkAcl('dashboard')" class="nav-item">
                         <a routerLink="/" class="nav-link"><i class="nav-link-icon pe-7s-home"></i> Dashboard </a>
-                    </li>
+                  </li>
                   <li *ngIf="checkAcl('purchase')" class="nav-item">
                       <a routerLink="/purchase" class="nav-link"><i class="nav-link-icon fa fa-database"> </i> Purchase </a>
                   </li>
@@ -21,6 +21,12 @@
                   </li>
                   <li *ngIf="checkAcl('due')" class="nav-item">
                       <a routerLink="/sale-due" class="nav-link"><i class="nav-link-icon fa fa-bug"></i> Sale Due </a>
+                  </li>
+                  <li class="nav-item">
+                      <a routerLink="/inventory" class="nav-link"><i class="nav-link-icon fa fa-cog"></i> Inventory </a>
+                  </li>
+                  <li class="nav-item">
+                      <a routerLink="/products" class="nav-link"><i class="nav-link-icon fa fa-cog"></i> Products </a>
                   </li>
                   <li *ngIf="checkAcl('report')" class="nav-item">
                       <a href="#" class="nav-link"><i class="nav-link-icon fa fa-cog"></i> Report </a>

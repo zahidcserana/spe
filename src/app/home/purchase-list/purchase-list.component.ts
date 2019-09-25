@@ -31,7 +31,6 @@ export class PurchaseListComponent implements OnInit {
   purchase: any;
 
   getPurcheseList(){
-    console.log("Purchase List");
     this.PurchaseListService.getPurcheseList().pipe(map(response => {
       return response;
     }), catchError(err => {
@@ -52,15 +51,13 @@ export class PurchaseListComponent implements OnInit {
 
   closeModal(id: string) {
     this.modalService.close(id);
-    this.purchaseDetails = {};
-    this.purchase = {};
+    this.purchaseDetails = [];
+    this.purchase = [];
   }
 
   getPurchaseDetails(orderId){
-    console.log(orderId);
     this.PurchaseListService.getPurcheseDetails(orderId).subscribe((response) =>{ 
       this.purchaseDetails = response.data;
-      console.log(this.purchaseDetails);
       this.purchase = response.purchase[0];
     });
   }

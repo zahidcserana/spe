@@ -32,6 +32,11 @@ const routes: Routes = [
         loadChildren: './purchase-list/purchase-list.module#PurchaseListModule',
       },
       {
+        path: 'products',
+        loadChildren: './product/product.module#ProductModule',
+        resolve: { companies: HomeResolveService }
+      },
+      {
         path: 'sale-due',
         loadChildren: './sale-due/sale-due.module#SaleDueModule'
       }
