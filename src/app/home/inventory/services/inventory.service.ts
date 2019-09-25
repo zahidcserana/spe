@@ -13,7 +13,15 @@ export class InventoryService {
     return this.http.get(`inventory/list`).pipe(map(res => res));
   }
 
+  getCompanyList(){
+    return this.http.get(`company-list`).pipe(map(res => res));
+  }
+
   submitItem(data: any) {
     return this.http.post('purchase/save', data).toPromise();
+  }
+
+  getInventoryFilterList(params){
+    return this.http.get(`inventory/listFilter?filter=${params}`).pipe(map(response => response));
   }
 }
