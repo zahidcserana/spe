@@ -7,37 +7,218 @@
             <i class="fa fa-capsules icon-gradient bg-happy-itmeo"> </i>
           </div>
         </span>
-        <form id="myForm" class="form-inline form-width-60">
-          <!--<div class="form-group mb-0 form-control-width-30">
-            <label for="medicine_name" class="sr-only">Medicine </label>
-            <input placeholder="Medicine Name" id="typeahead-basic" name="search" [(ngModel)]="cartItem.medicine"
-              type="text" class="form-control form-input-width-100" [ngbTypeahead]="search"
-              (change)="getAvailableQuantity()" autofocus/>
-          </div>
-          <div class="form-group mx-sm-3 mb-0 form-control-width-30 input-description-margin">
-            <label for="quantity" class="sr-only">QTY </label>
-            <input type="number" class="form-control form-input-width-100" aria-describedby="AvailableQty" id="quantity"
-              name="quantity" [(ngModel)]="cartItem.quantity" placeholder="Quantity" />
-            <small id="AvailableQty" class="form-text text-muted">
-              Available (
-              <span class="availableQty">{{ availability }} </span> Pcs)
-            </small>
-          </div>
-          <button type="submit" class="btn btn-primary mb-0 add-medicine-btn">
-            Add
-          </button>-->
-        </form>
-        <br />
-        <br />
         <div class="btn-actions-pane-right">
-          <i class="pe-7s-cart icon-gradient bg-happy-itmeo"> </i> Purchase Medicine
+          <i class="pe-7s-cart icon-gradient bg-happy-itmeo"> </i> Medicine List
         </div>
       </div>
       <div class="row">
         <div class="col-lg-12">
-          <p> Purchase Medicine</p>
+          <br/>
+          <form id="myForm" class="form-inline form-width-100" (ngSubmit)="addMedicine()">
+            <div class="form-group mb-0 form-control-width-15">
+              <label for="medicine_name" class="sr-only input-lebel">Medicine Name</label>
+              <input placeholder="" id="typeahead-basic" name="search" [(ngModel)]="purchaseItem.medicine"
+                type="text" class="form-control form-input-width-100" [ngbTypeahead]="search" autofocus/>
+            </div>
+            <div class="form-group mb-0 form-control-width-10">
+              <label for="batch_no" class="sr-only input-lebel">Batch No </label>
+              <input type="text" class="form-control form-input-width-100" id="batch_no"
+                name="batch_no" [(ngModel)]="purchaseItem.batch_no" placeholder="" />
+            </div>
+            <div class="form-group mb-0 form-control-width-10">
+              <label for="exp_date" class="sr-only input-lebel">Exp. Date </label>
+              <input type="text" class="form-control form-input-width-100" id="exp_date"
+                name="exp_date" [(ngModel)]="purchaseItem.exp_date" placeholder="" />
+            </div>
+            <div class="form-group mb-0 form-control-width-10">
+              <label for="piece_per_box" class="sr-only input-lebel">Piece/Box </label>
+              <input type="number" class="form-control form-input-width-100" id="piece_per_box"
+                name="piece_per_box" [(ngModel)]="purchaseItem.piece_per_box" placeholder="" />
+            </div>
+            <div class="form-group mb-0 form-control-width-10">
+              <label for="box_trade_price" class="sr-only input-lebel">Trade price (Box) </label>
+              <input type="number" class="form-control form-input-width-100" id="box_trade_price"
+                name="box_trade_price" [(ngModel)]="purchaseItem.box_trade_price" placeholder="" />
+            </div>
+            <div class="form-group mb-0 form-control-width-10">
+              <label for="box_mrp" class="sr-only input-lebel">M.R.P (Box) </label>
+              <input type="number" class="form-control form-input-width-100" id="box_mrp"
+                name="box_mrp" [(ngModel)]="purchaseItem.box_mrp" placeholder="" />
+            </div>
+            <div class="form-group mb-0 form-control-width-10">
+              <label for="quantity" class="sr-only input-lebel">QTY </label>
+              <input type="number" class="form-control form-input-width-100" id="quantity"
+                name="quantity" [(ngModel)]="purchaseItem.quantity" placeholder="" />
+            </div>
+            <div class="form-group mb-0 form-control-width-10">
+              <label for="remarks" class="sr-only input-lebel">Remarks </label>
+              <input type="text" class="form-control form-input-width-100" id="remarks"
+                name="remarks" [(ngModel)]="purchaseItem.remarks" placeholder="" />
+            </div>
+            <button type="submit" class="btn btn-primary mb-0 add-medicine-btn">
+              Add
+            </button>
+          </form>
+        </div>
+        <div class="col-lg-12">
+          <hr/>
+          <table class="mb-0 table table-hover">
+              <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Medicine Name</th>
+                  <th>Batch no</th>
+                  <th>Exp. Date</th>
+                  <th>Piece/Box</th>
+                  <th>Trade price (Box)</th>
+                  <th>M.R.P (Box)</th>
+                  <th>Qty</th>
+                  <th>Total</th>
+                  <th>Remarks</th>
+                  <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of allPurchaseItems; let i='index';">
+                    <th scope="row">{{ i+1 }}</th>
+                    <td>{{ item.medicine }}</td>
+                    <td>{{ item.batch_no }}</td>
+                    <td>{{ item.exp_date }}</td>
+                    <td>{{ item.piece_per_box }} Pcs</td>
+                    <td>{{ item.box_trade_price }}</td>
+                    <td>{{ item.box_mrp }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.remarks }}</td>
+                    <td><button (click)="deleteRow(i)" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button></td>
+                </tr>
+              </tbody>
+          </table>
+          <hr class="hr-margin"/>
+        </div>
+        <div class="col-lg-3 offset-md-9 total-div-border">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Total Amount</div>
+                      </div>
+                      <div class="widget-content-right">
+                          <input name="total_amount" [(ngModel)]="purchaseDetails.total" readonly="readonly" id="total_amount" placeholder="Total Amount" type="number" class="form-control">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Total VAT</div>
+                          <div class="position-relative form-group vat-parcentage">
+                              <div>
+                                  <div class="custom-radio custom-control custom-control-inline">
+                                    <input type="radio" name="vat_percentage" [(ngModel)]="purchaseDetails.vat_percentage" (change)="calculateVat()" id="Fixed" value="fixed" class="custom-control-input">
+                                    <label class="custom-control-label" (click)="calculateVat()" for="Fixed">Fixed</label>
+                                  </div>
+                                  <div class="custom-radio custom-control custom-control-inline">
+                                    <input type="radio" [(ngModel)]="purchaseDetails.vat_percentage" name="vat_percentage" (change)="calculateVat()" id="percentage" value="percentage" class="custom-control-input">
+                                    <label class="custom-control-label" (click)="calculateVat()" for="percentage">Percentage (%)</label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="widget-content-right">
+                          <input name="total_vat" id="total_vat" [(ngModel)]="purchaseDetails.vat" (input)="calculateVat()" placeholder="Total VAT" type="number" class="form-control">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Discount</div>
+                      </div>
+                      <div class="widget-content-right">
+                          <input name="discount" id="discount" [(ngModel)]="purchaseDetails.discount" (input)="calculateVat()" placeholder="Discount" type="number" class="form-control">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Net Amount</div>
+                      </div>
+                      <div class="widget-content-right">
+                          <div class="widget-numbers text-danger"><span>{{ purchaseDetails.net_amount }} Tk.</span></div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Advance</div>
+                      </div>
+                      <div class="widget-content-right">
+                          <input name="total_advance" id="total_advance" [(ngModel)]="purchaseDetails.advance" (input)="claculateDue()" placeholder="Advance" type="number" class="form-control">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Due</div>
+                      </div>
+                      <div class="widget-content-right">
+                          <input name="total_due" id="total_due" placeholder="Due" readonly="readonly" [(ngModel)]="purchaseDetails.due" type="number" class="form-control">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Company</div>
+                      </div>
+                      <div class="widget-content-right">
+                          <select class="ace form-control" name="company" [(ngModel)]="purchaseDetails.company">
+                            <option value="0">Select Company</option>
+                            <option *ngFor="let company of companyList" value="{{ company.id }}">{{ company.name }}</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="card mb-3 widget-content widget-area-padding card-margin">
+                  <div class="widget-content-wrapper net-wiget">
+                      <div class="widget-content-left">
+                          <div class="widget-heading">Invoice</div>
+                      </div>
+                      <div class="widget-content-right">
+                          <input name="invoice" id="invoice" placeholder="Invoice" [(ngModel)]="purchaseDetails.invoice" type="text" class="form-control">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="position-relative form-group">
+                <button type="button" (click)="submitPurchaseDetails()" class="btn btn-primary mb-0 save-btn">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+
 </div>
