@@ -260,8 +260,8 @@ export class PurchaseComponent implements OnInit {
     }
   }
 
-  addMedicine(){
-    console.log('Add Medicine');
+  addMedicine()
+  {
     if(this.purchaseItem.medicine && this.purchaseItem.quantity && this.purchaseItem.box_mrp && this.purchaseItem.piece_per_box)
     {
       for (let medicine of this.searchData) {
