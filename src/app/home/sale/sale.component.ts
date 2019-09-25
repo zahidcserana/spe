@@ -72,6 +72,7 @@ export class SaleComponent implements OnInit {
   validationStatus: boolean;
   @ViewChild("cartMedicine", { static: true }) Medicine: ElementRef;
   @ViewChild("cartQty", { static: true }) cartQty: ElementRef;
+  company: any;
 
   constructor(private saleService: SaleService) {}
 
@@ -129,7 +130,6 @@ export class SaleComponent implements OnInit {
       this.loader_sub = false;
       return [];
     }
-
     return this.saleService.searchMedicineByPharmacy(params).pipe(
       map(res => {
         this.medicineList = [];
@@ -199,6 +199,7 @@ export class SaleComponent implements OnInit {
     return value < 0 ? 0 : value;
   }
   goQty() {
+    this.getAvailableQuantity();
     this.cartQty.nativeElement.focus();
   }
   addToCart() {
@@ -273,9 +274,11 @@ export class SaleComponent implements OnInit {
       .subscribe(data => (this.availability = data.available_quantity));
   }
   getMedicineId() {
+    console.log(this.cartItem.medicine);
     for (let s of this.searchData) {
       if (s.name == this.cartItem.medicine) {
         this.cartItem.medicine_id = s.id;
+        this.company = s.company;
       }
     }
   }
