@@ -33,11 +33,14 @@
             <input placeholder="Medicine Name" #cartMedicine id="typeahead-basic" name="search"
               [(ngModel)]="cartItem.medicine" type="text" class="form-control form-input-width-100"
               [ngbTypeahead]="search" (change)="getAvailableQuantity()" autofocus (keydown.enter)="goQty()"/>
+              <!-- <small id="AvailableQty" class="form-text text-muted">
+                <span class="availableQty">{{ company }} </span>
+              </small> -->
           </div>
           <div class="form-group mx-sm-3 mb-0 form-control-width-30 input-description-margin">
             <label for="quantity" class="sr-only">QTY </label>
             <input #cartQty type="number" class="form-control form-input-width-100" aria-describedby="AvailableQty" id="quantity"
-              name="quantity" [(ngModel)]="cartItem.quantity" placeholder="Quantity" />
+              name="quantity" [(ngModel)]="cartItem.quantity" placeholder="Quantity" (input)="getAvailableQuantity()"/>
             <small id="AvailableQty" class="form-text text-muted">
               Available (
               <span class="availableQty">{{ availability }} </span> Pcs)
@@ -172,7 +175,7 @@
                   </td>
                   <td style="width: 50%">
                     <input type="text" class="form-control" id="discount" name="discount" (input)="getNet()"
-                      [(ngModel)]="order.discount_amount" style="width: 50%" />
+                      [(ngModel)]="order.discount_amount"/>
                     <h5 style="display: none" id="dicountValue">
                       {{ order.discount | number: "1.2-2" }} /-
                     </h5>
