@@ -28,21 +28,21 @@ export class SaleComponent implements OnInit {
   };
   isAntibiotic = false;
   order: any = {
-    token: '',
+    token: "",
     sub_total: 0,
-    tendered: '',
+    tendered: "",
     change: 0,
     total_due_amount: 0,
     total_advance_amount: 0,
     total_payble_amount: 0,
     discount: 0,
-    discount_type: 'fixed',
+    discount_type: "fixed",
     discount_amount: 0,
-    payment_type: 'cash',
-    customer_name: '',
-    customer_mobile: '',
-    prescription_image: '',
-    sendsms: false,
+    payment_type: "cash",
+    customer_name: "",
+    customer_mobile: "",
+    prescription_image: "",
+    sendsms: false
   };
   searchData: any[] = [];
   loader_sub: boolean;
@@ -53,9 +53,9 @@ export class SaleComponent implements OnInit {
     medicine_id: ""
   };
   priceUpdate = {
-    item_id: '',
-    item_price: ''
-  }
+    item_id: "",
+    item_price: ""
+  };
   availableQuantity = {
     medicine_id: ""
   };
@@ -70,15 +70,16 @@ export class SaleComponent implements OnInit {
   fileName: any;
   orderDetails: any;
   validationStatus: boolean;
-  @ViewChild('cartMedicine', { static: true }) Medicine: ElementRef;
+  @ViewChild("cartMedicine", { static: true }) Medicine: ElementRef;
+  @ViewChild("cartQty", { static: true }) cartQty: ElementRef;
 
-  constructor(private saleService: SaleService) { }
+  constructor(private saleService: SaleService) {}
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
-    this.cartItem.token = token ? token : '';
-    console.log('token');
-    if (this.cartItem.token !== '') {
+    const token = localStorage.getItem("token");
+    this.cartItem.token = token ? token : "";
+    console.log("token");
+    if (this.cartItem.token !== "") {
       this.checkToken(this.cartItem.token);
     }
   }
@@ -86,23 +87,26 @@ export class SaleComponent implements OnInit {
     this.Medicine.nativeElement.focus();
   }
   checkToken(token) {
-    this.saleService.checkCart(this.cartItem.token)
-      .subscribe(res => {
-        if (res.status === true) {
-          this.saleService.cartDetails(this.cartItem.token).subscribe((data) => {
-            this.productList = data;
-            this.fileName = data.file_name;
-            // console.log(this.productList.file_name);
-            this.isAntibiotic = data.is_antibiotic;
-            this.order.sub_total = this.productList ? this.productList.sub_total : 0;
-            this.order.total_payble_amount = this.productList ? this.productList.sub_total - this.productList.discount : 0;
-          });
-        } else {
-          localStorage.removeItem('user_cart');
-          localStorage.removeItem('token');
-          this.productList = [];
-        }
-      });
+    this.saleService.checkCart(this.cartItem.token).subscribe(res => {
+      if (res.status === true) {
+        this.saleService.cartDetails(this.cartItem.token).subscribe(data => {
+          this.productList = data;
+          this.fileName = data.file_name;
+          // console.log(this.productList.file_name);
+          this.isAntibiotic = data.is_antibiotic;
+          this.order.sub_total = this.productList
+            ? this.productList.sub_total
+            : 0;
+          this.order.total_payble_amount = this.productList
+            ? this.productList.sub_total - this.productList.discount
+            : 0;
+        });
+      } else {
+        localStorage.removeItem("user_cart");
+        localStorage.removeItem("token");
+        this.productList = [];
+      }
+    });
   }
   search = (text$: Observable<string>) => {
     return text$.pipe(
@@ -143,8 +147,8 @@ export class SaleComponent implements OnInit {
     );
   }
   reset() {
-    localStorage.removeItem('user_cart');
-    localStorage.removeItem('token');
+    localStorage.removeItem("user_cart");
+    localStorage.removeItem("token");
     this.productList = [];
     this.order.sub_total = 0;
     this.order.tendered = 0;
@@ -153,23 +157,34 @@ export class SaleComponent implements OnInit {
     this.order.total_advance_amount = 0;
     this.order.total_payble_amount = 0;
     this.order.discount = 0;
-    this.order.payment_type = 'cash';
-    this.order.customer_name = '';
-    this.order.customer_mobile = '';
+    this.order.payment_type = "cash";
+    this.order.customer_name = "";
+    this.order.customer_mobile = "";
   }
   getNet() {
-    this.order.total_payble_amount = this.order.sub_total ? this.order.sub_total - this.order.discount_amount : 0;
-    if (this.order.discount_type === 'fixed') {
-      console.log('fixed');
+    this.order.total_payble_amount = this.order.sub_total
+      ? this.order.sub_total - this.order.discount_amount
+      : 0;
+    if (this.order.discount_type === "fixed") {
+      console.log("fixed");
       this.order.discount = this.order.discount_amount;
     } else {
-      console.log('paecentage');
-      this.order.discount = (this.order.sub_total / 100) * this.order.discount_amount;
+      console.log("paecentage");
+      this.order.discount =
+        (this.order.sub_total / 100) * this.order.discount_amount;
     }
   }
   getChange() {
-    this.order.change = this.checkIsLessZero(this.order.tendered ? this.order.tendered - this.order.total_payble_amount : 0);
-    this.order.total_due_amount = this.checkIsLessZero(this.order.tendered ? this.order.total_payble_amount - this.order.tendered : 0);
+    this.order.change = this.checkIsLessZero(
+      this.order.tendered
+        ? this.order.tendered - this.order.total_payble_amount
+        : 0
+    );
+    this.order.total_due_amount = this.checkIsLessZero(
+      this.order.tendered
+        ? this.order.total_payble_amount - this.order.tendered
+        : 0
+    );
     if (this.order.total_due_amount == 0) {
       this.order.total_advance_amount = this.order.total_payble_amount;
       $(".tr-change").addClass("tdChange");
@@ -182,6 +197,9 @@ export class SaleComponent implements OnInit {
   }
   checkIsLessZero(value) {
     return value < 0 ? 0 : value;
+  }
+  goQty() {
+    this.cartQty.nativeElement.focus();
   }
   addToCart() {
     if (this.cartItem.medicine) {
@@ -198,8 +216,12 @@ export class SaleComponent implements OnInit {
             localStorage.setItem("token", res.data.token);
             this.productList = res.data;
             this.isAntibiotic = res.data.is_antibiotic;
-            this.order.sub_total = this.productList ? this.productList.sub_total : 0;
-            this.order.total_payble_amount = this.productList ? this.productList.sub_total - this.productList.discount : 0;
+            this.order.sub_total = this.productList
+              ? this.productList.sub_total
+              : 0;
+            this.order.total_payble_amount = this.productList
+              ? this.productList.sub_total - this.productList.discount
+              : 0;
             this.cartLoad = false;
             this.batchList = [];
             $("#myForm").trigger("reset");
@@ -260,7 +282,7 @@ export class SaleComponent implements OnInit {
 
   updateItemPrice(cart, i) {
     this.priceUpdate.item_id = cart.id;
-    this.priceUpdate.item_price = $('#unit_price_' + i).val();
+    this.priceUpdate.item_price = $("#unit_price_" + i).val();
     this.saleService
       .updateItemPrice(this.priceUpdate)
       .then(res => {
@@ -274,33 +296,13 @@ export class SaleComponent implements OnInit {
             ? this.productList.sub_total - this.productList.discount
             : 0;
           this.saleService.saveCartsInlocalStorage(res.data);
-          // $("custom-alert").css("display", "block");
-          // this.alertS.success(
-          //   this.alertContainer,
-          //   "Cart Updated Successfully",
-          //   true,
-          //   3000
-          // );
         } else {
-          // $("custom-alert").css("display", "block");
-          // this.alertS.error(
-          //   this.alertContainer,
-          //   "Something wrong !! Please try again ",
-          //   true,
-          //   3000
-          // );
+          console.log(res);
         }
         this.increament = null;
       })
       .catch(err => {
         console.log(err);
-        // $("custom-alert").css("display", "block");
-        // this.alertS.error(
-        //   this.alertContainer,
-        //   "Something wrong !! Please try again",
-        //   true,
-        //   3000
-        // );
         this.increament = null;
       });
   }
@@ -319,24 +321,25 @@ export class SaleComponent implements OnInit {
     }
   }
   removeItem(itemId) {
-    this.saleService.deleteCart(itemId, localStorage.getItem('token')).then(
-      res => {
+    this.saleService
+      .deleteCart(itemId, localStorage.getItem("token"))
+      .then(res => {
         if (res.success === true) {
-          // this.alertS.success(this.alertContainer, 'Item successfull deleted', true, 3000);
           this.saleService.saveCartsInlocalStorage(res.data);
-          localStorage.setItem('token', res.data.token);
-
+          localStorage.setItem("token", res.data.token);
           this.productList = res.data;
           this.isAntibiotic = res.data.is_antibiotic;
-          this.order.sub_total = this.productList ? this.productList.sub_total : 0;
-          this.order.total_payble_amount = this.productList ? (this.productList.sub_total - this.productList.discount) : 0;
+          this.order.sub_total = this.productList
+            ? this.productList.sub_total
+            : 0;
+          this.order.total_payble_amount = this.productList
+            ? this.productList.sub_total - this.productList.discount
+            : 0;
         }
-      }
-    ).catch(
-      err => {
-        // this.alertS.error(this.alertContainer, err.error.error, true, 3000);
-      }
-    );
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   increaseQuant(cart, i) {
     this.increament = i;
@@ -363,45 +366,26 @@ export class SaleComponent implements OnInit {
             ? this.productList.sub_total - this.productList.discount
             : 0;
           this.saleService.saveCartsInlocalStorage(res.data);
-          // $("custom-alert").css("display", "block");
-          // this.alertS.success(
-          //   this.alertContainer,
-          //   "Cart Updated Successfully",
-          //   true,
-          //   3000
-          // );
         } else {
-          // $("custom-alert").css("display", "block");
-          // this.alertS.error(
-          //   this.alertContainer,
-          //   "Something wrong !! Please try again ",
-          //   true,
-          //   3000
-          // );
+          console.log(res);
         }
         this.increament = null;
       })
       .catch(err => {
         console.log(err);
-        // $("custom-alert").css("display", "block");
-        // this.alertS.error(
-        //   this.alertContainer,
-        //   "Something wrong !! Please try again",
-        //   true,
-        //   3000
-        // );
         this.increament = null;
       });
   }
   getDiscount(type = null) {
-    if (type == 'fixed') {
-      $('#dicountValue').hide();
-      console.log('fixed');
+    if (type == "fixed") {
+      $("#dicountValue").hide();
+      console.log("fixed");
       this.order.discount = this.order.discount_amount;
     } else {
-      $('#dicountValue').show();
-      console.log('paecentage');
-      this.order.discount = (this.order.sub_total / 100) * this.order.discount_amount;
+      $("#dicountValue").show();
+      console.log("paecentage");
+      this.order.discount =
+        (this.order.sub_total / 100) * this.order.discount_amount;
     }
   }
   validationCheck() {
@@ -422,14 +406,15 @@ export class SaleComponent implements OnInit {
   }
   submitOrder() {
     if (this.validationCheck()) {
-      this.order.token = localStorage.getItem('token');
+      this.order.token = localStorage.getItem("token");
       console.log(this.order);
-      this.saleService.makeSaleOrder(this.order).then(
-        res => {
+      this.saleService
+        .makeSaleOrder(this.order)
+        .then(res => {
           if (res.success === true) {
             this.orderId = res.data.order_id;
             this.orderDetails = res.data;
-            this.fileName = '';
+            this.fileName = "";
             $(".validation-input").removeClass("invalid-input");
             Swal.fire({
               position: "center",
@@ -438,26 +423,23 @@ export class SaleComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
-
             this.reset();
           }
-        }
-      ).catch(
-        err => {
+        })
+        .catch(err => {
           Swal.fire({
             type: "warning",
             title: "Oops...",
             text: "Please enter all required field!",
-            showConfirmButton: false,
+            showConfirmButton: false
           });
-        }
-      );
+        });
     } else {
       Swal.fire({
         type: "warning",
         title: "Oops...",
-        text: "Please enter the tendered amount!",
-        showConfirmButton: false,
+        text: "Please enter all required field!",
+        showConfirmButton: false
       });
     }
   }

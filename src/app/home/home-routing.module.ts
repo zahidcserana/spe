@@ -30,6 +30,10 @@ const routes: Routes = [
       {
         path: 'purchase-list',
         loadChildren: './purchase-list/purchase-list.module#PurchaseListModule',
+      },
+      {
+        path: 'sale-due',
+        loadChildren: './sale-due/sale-due.module#SaleDueModule'
       }
     ]
   }

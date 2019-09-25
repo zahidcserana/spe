@@ -22,3 +22,8 @@ export class SaleFilterModel {
   date_start: string;
   date_end: string;
 }
+export class PayoutModel {
+  sale_id: number;
+  amount: number;
+  status: string;
+}
