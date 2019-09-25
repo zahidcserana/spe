@@ -26,6 +26,10 @@ const routes: Routes = [
       {
         path: 'purchase',
         loadChildren: './purchase/purchase.module#PurchaseModule',
+      },
+      {
+        path: 'purchase-list',
+        loadChildren: './purchase-list/purchase-list.module#PurchaseListModule',
       }
     ]
   }

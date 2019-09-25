@@ -1,19 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter, NgModule } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { FORMAT_SEARCH } from 'src/app/common/_classes/functions';
-import { SaleFilterModel } from 'src/app/home/models/sale.model';
-import { BsDatepickerModule } from 'ngx-bootstrap';
-import { DatePipe } from '@angular/common';
-
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  NgModule
+} from "@angular/core";
+import { Subscription } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
+import { FORMAT_SEARCH } from "src/app/common/_classes/functions";
+import { SaleFilterModel } from "src/app/home/models/sale.model";
+import { BsDatepickerModule } from "ngx-bootstrap";
+import { DatePipe } from "@angular/common";
 
 declare let $: any;
 declare var moment: any;
 
 @Component({
-  selector: 'app-sale-filter',
-  templateUrl: './sale-filter.component.html',
-  styleUrls: ['./sale-filter.component.css']
+  selector: "app-sale-filter",
+  templateUrl: "./sale-filter.component.html",
+  styleUrls: ["./sale-filter.component.css"]
 })
 export class SaleFilterComponent implements OnInit {
   dateRangeValue: Date[];
@@ -22,33 +28,27 @@ export class SaleFilterComponent implements OnInit {
   filter: string;
   search: boolean;
   sub: Subscription;
-  @Output('loadList') loadList: EventEmitter<string> = new EventEmitter();
+  @Output("loadList") loadList: EventEmitter<string> = new EventEmitter();
 
-  constructor(
-    private route: ActivatedRoute,
-    private datePipe: DatePipe,
-    ) {
+  constructor(private route: ActivatedRoute, private datePipe: DatePipe) {
     this.nextDate.setDate(this.nextDate.getDate() + 7);
     this.dateRangeValue = [new Date(), this.nextDate];
     this.saleData = new SaleFilterModel();
     this.saleData.sale_date = [new Date(), this.nextDate];
 
-    this.sub = this.route.paramMap.subscribe(
-      val => {
-        this.reset();
-      }
-    );
+    this.sub = this.route.paramMap.subscribe(val => {
+      this.reset();
+    });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   ngAfterViewInit() {
     // this._dateRange();
   }
   dateFormate() {
     let dateRange = [];
     for (let d of this.saleData.sale_date) {
-      dateRange.push(this.datePipe.transform(new Date(d),"yyyy-MM-dd"));
+      dateRange.push(this.datePipe.transform(new Date(d), "yyyy-MM-dd"));
     }
     this.saleData.sale_date = dateRange;
   }
@@ -69,11 +69,9 @@ export class SaleFilterComponent implements OnInit {
     this.saleData.date_end = null;
   }
   searchSaleData() {
-    console.log('sale_date');
-    console.log(this.saleData.sale_date);
-    this.dateFormate();
-    console.log(this.saleData.sale_date);
-
+    if (this.saleData.sale_date) {
+      this.dateFormate();
+    }
     this.filter = FORMAT_SEARCH(this.saleData);
     if (this.filter) {
       this.loadList.emit(this.filter);
@@ -84,31 +82,49 @@ export class SaleFilterComponent implements OnInit {
     this.reset();
     this.filter = null;
     if (this.search) {
-      this.loadList.emit('');
+      this.loadList.emit("");
       this.search = false;
     }
   }
   private _dateRange() {
-    $('#m_daterangepicker_3').daterangepicker({
-      opens: 'left',
-      startDate: moment(),
-      endDate: moment().endOf('month'),
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    $("#m_daterangepicker_3").daterangepicker(
+      {
+        opens: "left",
+        startDate: moment(),
+        endDate: moment().endOf("month"),
+        ranges: {
+          Today: [moment(), moment()],
+          Yesterday: [
+            moment().subtract(1, "days"),
+            moment().subtract(1, "days")
+          ],
+          "Last 7 Days": [moment().subtract(6, "days"), moment()],
+          "Last 30 Days": [moment().subtract(29, "days"), moment()],
+          "This Month": [moment().startOf("month"), moment().endOf("month")],
+          "Last Month": [
+            moment()
+              .subtract(1, "month")
+              .startOf("month"),
+            moment()
+              .subtract(1, "month")
+              .endOf("month")
+          ]
+        },
+        autoUpdateInput: true,
+        buttonClasses: "m-btn btn",
+        applyClass: "btn-brand",
+        cancelClass: "btn-danger"
       },
-      autoUpdateInput: true,
-      buttonClasses: 'm-btn btn',
-      applyClass: 'btn-brand',
-      cancelClass: 'btn-danger'
-    }, (start, end, label) => {
-      this.saleData.date_start = start.format('YYYY-MM-DD');
-      this.saleData.date_end = end.format('YYYY-MM-DD');
-      $('#m_daterangepicker_3 .form-control').val('From ' + start.format('YYYY-MM-DD') + ' To ' + end.format('YYYY-MM-DD'));
-    });
+      (start, end, label) => {
+        this.saleData.date_start = start.format("YYYY-MM-DD");
+        this.saleData.date_end = end.format("YYYY-MM-DD");
+        $("#m_daterangepicker_3 .form-control").val(
+          "From " +
+            start.format("YYYY-MM-DD") +
+            " To " +
+            end.format("YYYY-MM-DD")
+        );
+      }
+    );
   }
 }

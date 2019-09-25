@@ -1,86 +1,53 @@
 <div class="m-portlet m-portlet--mobile search-div">
-  <div class="m-portlet__head">
-    <div class="m-portlet__head-caption">
-      <!--<div class="m-portlet__head-title">
-        <h3 class="m-portlet__head-text">
-          <i class="la la-search"></i>
-          Search
-        </h3>
-      </div>-->
-    </div>
-  </div>
   <div class="m-portlet__body search-panel">
     <!--begin::Form-->
-    <form
-      class="m-form m-form--fit m-form--label-align-right second-form"
-      #form="ngForm"
-      (ngSubmit)="searchSaleData()"
-    >
-      <div class="row">
-        <div class="col-md-12">
-          <div class="col-md-3 col-sm-6">
-            <div class="form-group m-form__group">
-              <input
-                type="text"
-                class="form-control m-input"
-                name="invoice"
-                [(ngModel)]="saleData.invoice"
-                placeholder="Invoice"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-3 col-sm-6">
-            <div class="form-group m-form__group">
-              <input
-                type="text"
-                class="form-control m-input"
-                name="customer_mobile"
-                [(ngModel)]="saleData.customer_mobile"
-                placeholder="Customer Mobile"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-3 col-sm-6">
-            <div class="form-group m-form__group">
-              <input
-                autocomplete="off"
-                type="text"
-                placeholder="Date Range"
-                class="form-control"
-                bsDaterangepicker
-                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-                [(ngModel)]="saleData.sale_date"
-                name="sale_date"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-3 col-sm-6">
-            <div class="col-md-6 form-group m-form__group">
-              <button
-                type="submit"
-                class="btn btn-success btn-sm"
-                style="margin-right:10px"
-              >
-                <i class="fa fa-calendar-check-o"></i>
-                Search
-              </button>
-            </div>
-            <div class="col-md-6 form-group m-form__group">
-              <button
-                type="reset"
-                class="btn m-btn--pill m-btn--air btn-danger btn-sm"
-                (click)="resetSearch()"
-              >
-                <i class="fa fa-history"></i>
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
+    <form class="form-inline" #form="ngForm" (ngSubmit)="searchSaleData()">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputPassword2" class="sr-only">Invoice</label>
+        <input
+          type="text"
+          class="form-control"
+          name="invoice"
+          [(ngModel)]="saleData.invoice"
+          placeholder="Invoice"
+        />
       </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputPassword2" class="sr-only">Customer Mobile</label>
+        <input
+          type="text"
+          class="form-control"
+          name="customer_mobile"
+          [(ngModel)]="saleData.customer_mobile"
+          placeholder="Customer Mobile"
+        />
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputPassword2" class="sr-only">Date Range</label>
+        <input
+          autocomplete="off"
+          type="text"
+          placeholder="Date Range"
+          class="form-control"
+          bsDaterangepicker
+          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+          [(ngModel)]="saleData.sale_date"
+          name="sale_date"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary mb-2"
+        style="margin-right:10px"
+      >
+        <i class="fa fa-calendar-check-o"></i>
+        Search
+      </button>
+      <button type="reset" class="btn btn-danger mb-2" (click)="resetSearch()">
+        <i class="fa fa-history"></i>
+        Reset
+      </button>
     </form>
     <!--end::Form-->
   </div>
