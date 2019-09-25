@@ -338,7 +338,7 @@ table.preview td.total {
 }
 
 .data-view-modal #print-div {
-  margin-top: 1%;
+  margin-top: 0;
 }
 .data-view-modal #print-button {
   width: 7%;
@@ -346,7 +346,7 @@ table.preview td.total {
 }
 .data-view-modal #close-button {
   width: 7%;
-  float: right;
+  left: 82%;
 }
 .data-view-modal div#customer-info,
 .data-view-modal div#pharmacy-info  {

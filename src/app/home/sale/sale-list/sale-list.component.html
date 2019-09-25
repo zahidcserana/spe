@@ -58,14 +58,14 @@
                 <a
                   (click)="openModal(item.id, 'sale-modal')"
                   id="item_id"
-                  class="btn btn-info btn-sm"
+                  class="btn btn-info"
                   ><i class="fa fa-eye"></i
                 ></a>
                 &nbsp;
                 <a
                   (click)="openModal(item.id, 'print-modal')"
                   id="item_id"
-                  class="btn btn-secondary btn-sm"
+                  class="btn btn-warning"
                   ><i class="fa fa-file-pdf"></i
                 ></a>
               </td>
@@ -240,8 +240,8 @@
       </header>
       <main>
         <div style="text-align: center;padding-bottom: 1%">
-          <span style="padding-right: 2%">Invoice: 13213213213</span>
-          <span style="padding-left: 2%">Date: 2018-08-18</span>
+          <span style="padding-right: 2%">Invoice: {{ orderDetails.invoice }}</span>
+          <span style="padding-left: 2%">{{ orderDetails.created_at }}</span>
         </div>
         <form
           *ngIf="saleItem"

@@ -44,8 +44,17 @@ export class SaleService {
       .get(`sales?page_no=${p ? p : 1}&limit=${l ? l : 20}${params}`)
       .pipe(map(res => res));
   }
+  saleDueList(p, l, query?) {
+    const params = query ? query : '';
+    return this.http
+      .get(`sales/due?page_no=${p ? p : 1}&limit=${l ? l : 20}${params}`)
+      .pipe(map(res => res));
+  }
   returnItem(data) {
     return this.http.post('orders/sale/return-item', data).toPromise();
+  }
+  payoutAmount(data) {
+    return this.http.post('sales/payout', data).toPromise();
   }
   deleteItem(item_id) {
     return this.http.post('orders/sale/delete-item', { item_id: item_id }).toPromise();

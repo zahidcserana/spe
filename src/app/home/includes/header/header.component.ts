@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -7,14 +8,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  user;
   constructor(
     private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.user = this.authService.getUser();
+    console.log('user');
+    console.log(this.user.user_type);
   }
-
+  getAcl() {
+    // let aclList = {
+    //   'ADMIN' : ['dashboard', 'sale', 'purchase', 'user', 'inventory', 'report']
+    // };
+    return false;
+  }
   logout() {
     localStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentUser");
