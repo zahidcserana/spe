@@ -51,9 +51,6 @@
               <td>{{ item.total_payble_amount }}</td>
               <td>{{ item.total_due_amount }}</td>
               <td>
-                <a (click)="openModal(item.id, 'sale-modal')" id="item_id" class="btn btn-info"><i
-                    class="fa fa-eye"></i></a>
-                &nbsp;
                 <a (click)="openModal(item.id, 'print-modal')" id="item_id" class="btn btn-warning"><i
                     class="fa fa-file-pdf"></i></a>
               </td>
@@ -140,8 +137,7 @@
           </tbody>
           <tfoot style="border-top: solid darkgray 1px">
             <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td colspan="2">&nbsp;</td>
               <td colspan="2" style="text-align: left;font-weight: bold;">
                 Total Amount
               </td>
@@ -150,8 +146,7 @@
               </td>
             </tr>
             <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td colspan="2">&nbsp;</td>
               <td colspan="2" style="text-align: left;font-weight: bold">
                 Discount Amount
               </td>
@@ -160,8 +155,7 @@
               </td>
             </tr>
             <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td colspan="2">&nbsp;</td>
               <td colspan="2" style="text-align: left;font-weight: bold">
                 Net Amount
               </td>
@@ -172,8 +166,7 @@
               </td>
             </tr>
             <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td colspan="2">&nbsp;</td>
               <td colspan="2" style="text-align: left;font-weight: bold">
                 Due Amount
               </td>
@@ -184,8 +177,7 @@
               </td>
             </tr>
             <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td colspan="2">&nbsp;</td>
               <td colspan="2" style="text-align: left;font-weight: bold">
                 Payout Amount
               </td>
@@ -212,7 +204,7 @@
             <tr>
               <td colspan="3">&nbsp;</td>
               <td colspan="2" style="text-align: right;padding-right: 2%">
-                <button class="btn btn-success" (click)="payoutAmount()">Save</button>
+                <button style="width: 45%" class="btn btn-success" (click)="payoutAmount()">Save</button>
               </td>
             </tr>
           </tfoot>
