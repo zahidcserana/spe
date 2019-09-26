@@ -25,6 +25,9 @@
           style="width: 100%"
           (loadList)="filterList($event)"
         ></app-sale-filter>
+        <p>
+          Total Sale Amount: <span class="amount">{{ sammary.total_sale_amount | number: "1.2-2" }}</span>, Total Due Amount: <span class="amount">{{ sammary.total_due_amount | number: "1.2-2"}}</span>
+        </p>
         <table class="mb-0 table table-bordered">
           <thead>
             <tr>

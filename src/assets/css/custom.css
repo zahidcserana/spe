@@ -353,3 +353,7 @@ table.preview td.total {
   flex: 1;
 }
 /* data-view-modal end */
+
+.amount {
+  font-weight: bold;
+}

@@ -23,6 +23,10 @@ export class SaleListComponent implements OnInit {
     new_quantity: 0,
     unit_type: 'PCS',
   };
+  sammary = {
+    total_sale_amount: 0.00,
+    total_due_amount: 0.00,
+  }
   saleItem: any;
   constructor(
     private saleService: SaleService,
@@ -42,6 +46,8 @@ export class SaleListComponent implements OnInit {
       .subscribe(res => {
         this.dataList = res.data;
         this.setData(res);
+        this.sammary.total_sale_amount = res.total_sale_amount;
+        this.sammary.total_due_amount = res.total_due_amount;
       });
     console.log(this.dataList);
   }

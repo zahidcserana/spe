@@ -1,21 +1,19 @@
 <div class="app-page-title">
   <div class="page-title-wrapper">
-     <div class="page-title-heading">
-        <div class="page-title-icon">
-           <i class="pe-7s-monitor icon-gradient bg-mean-fruit">
-           </i>
-        </div>
-        <div>
-         Smart Pharmacy ERP
-         <small>
-           <a routerLink="/sale/list">
+    <div class="page-title-heading">
+      <div class="page-title-icon">
+        <i class="pe-7s-monitor icon-gradient bg-mean-fruit"> </i>
+      </div>
+      <div>
+        Smart Pharmacy ERP
+        <small>
+          <a routerLink="/sale/list">
             <i class="ace-icon fa fa-angle-double-right"></i>
             Sale List
-           </a>
-       </small>
-
-        </div>
-     </div>
+          </a>
+        </small>
+      </div>
+    </div>
   </div>
 </div>
 <div class="row">
@@ -27,20 +25,45 @@
             <i class="fa fa-capsules icon-gradient bg-happy-itmeo"> </i>
           </div>
         </span>
-        <form id="myForm" class="form-inline form-width-60" (ngSubmit)="addToCart()">
+        <form
+          id="myForm"
+          class="form-inline form-width-60"
+          (ngSubmit)="addToCart()"
+        >
           <div class="form-group mb-0 form-control-width-30">
             <label for="medicine_name" class="sr-only">Medicine </label>
-            <input placeholder="Medicine Name" #cartMedicine id="typeahead-basic" name="search"
-              [(ngModel)]="cartItem.medicine" type="text" class="form-control form-input-width-100"
-              [ngbTypeahead]="search" (change)="getAvailableQuantity()" autofocus (keydown.enter)="goQty()"/>
-              <!-- <small id="AvailableQty" class="form-text text-muted">
+            <input
+              placeholder="Medicine Name"
+              #cartMedicine
+              id="typeahead-basic"
+              name="search"
+              [(ngModel)]="cartItem.medicine"
+              type="text"
+              class="form-control form-input-width-100"
+              [ngbTypeahead]="search"
+              (change)="getAvailableQuantity()"
+              autofocus
+              (keydown.enter)="goQty()"
+            />
+            <!-- <small id="AvailableQty" class="form-text text-muted">
                 <span class="availableQty">{{ company }} </span>
               </small> -->
           </div>
-          <div class="form-group mx-sm-3 mb-0 form-control-width-30 input-description-margin">
+          <div
+            class="form-group mx-sm-3 mb-0 form-control-width-30 input-description-margin"
+          >
             <label for="quantity" class="sr-only">QTY </label>
-            <input #cartQty type="number" class="form-control form-input-width-100" aria-describedby="AvailableQty" id="quantity"
-              name="quantity" [(ngModel)]="cartItem.quantity" placeholder="Quantity" (input)="getAvailableQuantity()"/>
+            <input
+              #cartQty
+              type="number"
+              class="form-control form-input-width-100"
+              aria-describedby="AvailableQty"
+              id="quantity"
+              name="quantity"
+              [(ngModel)]="cartItem.quantity"
+              placeholder="Quantity"
+              (input)="getAvailableQuantity()"
+            />
             <small id="AvailableQty" class="form-text text-muted">
               Available (
               <span class="availableQty">{{ availability }} </span> Pcs)
@@ -59,7 +82,9 @@
       <div class="row">
         <div class="col-lg-8">
           <div class="table-responsive">
-            <table class="align-middle mb-0 table table-borderless table-striped table-hover table-bordar">
+            <table
+              class="align-middle mb-0 table table-borderless table-striped table-hover table-bordar"
+            >
               <thead class="thead">
                 <tr>
                   <th style="width: 5%" class="text-center">#</th>
@@ -72,8 +97,19 @@
                   <th style="width: 15%" class="text-center"></th>
                 </tr>
               </thead>
-              <tbody *ngIf="productList && productList?.cart_items?.length > 0;else NoItem">
-                <ng-container *ngFor="let cart of productList?.cart_items;let i = index;trackBy: trackList">
+              <tbody
+                *ngIf="
+                  productList && productList?.cart_items?.length > 0;
+                  else NoItem
+                "
+              >
+                <ng-container
+                  *ngFor="
+                    let cart of productList?.cart_items;
+                    let i = index;
+                    trackBy: trackList
+                  "
+                >
                   <tr>
                     <td class="text-center text-muted">{{ i + 1 }}.</td>
                     <td>
@@ -83,7 +119,9 @@
                             <div class="widget-heading">
                               {{ cart.medicine.type }}.
                               {{ cart.medicine.brand_name }}
-                              <span class="medicine-power">&nbsp;({{ cart.medicine.strength }})</span>
+                              <span class="medicine-power"
+                                >&nbsp;({{ cart.medicine.strength }})</span
+                              >
                               <br />
                               <small>{{ cart.company.name }}</small>
                             </div>
@@ -92,27 +130,52 @@
                       </div>
                     </td>
                     <td class="text-center">
-                      <input type="number" class="form-control form-input-width-100" aria-describedby="AvailableQty"
-                        id="unit_price_{{ i }}" name="unit_price" value="{{ cart.unit_price }}" placeholder="Unit Price"
-                        (change)="updateItemPrice(cart, i)" />
+                      <input
+                        type="number"
+                        class="form-control form-input-width-100"
+                        aria-describedby="AvailableQty"
+                        id="unit_price_{{ i }}"
+                        name="unit_price"
+                        value="{{ cart.unit_price }}"
+                        placeholder="Unit Price"
+                        (change)="updateItemPrice(cart, i)"
+                      />
                     </td>
                     <td class="text-center">
                       <div class="quantity clearfix">
-                        <span style="background: black !important;" [ngClass]="{ 'block-cursor': increament == i }"
-                          class="btn btn-sm btn-dark no-m" (click)="decreaseQuant(cart, i)">-</span>
-                        <span class="cart-qunt btn btn-sm no-m"
-                          style="position: relative;background: #ffffff!important;color: black!important;">{{ cart.quantity }}
-                          <div *ngIf="increament == i" class="m-loader m-loader--brand"
-                            style="position: absolute;width: 30px;top:15px; left:10px;"></div>
+                        <span
+                          style="background: black !important;"
+                          [ngClass]="{ 'block-cursor': increament == i }"
+                          class="btn btn-sm btn-dark no-m"
+                          (click)="decreaseQuant(cart, i)"
+                          >-</span
+                        >
+                        <span
+                          class="cart-qunt btn btn-sm no-m"
+                          style="position: relative;background: #ffffff!important;color: black!important;"
+                          >{{ cart.quantity }}
+                          <div
+                            *ngIf="increament == i"
+                            class="m-loader m-loader--brand"
+                            style="position: absolute;width: 30px;top:15px; left:10px;"
+                          ></div>
                         </span>
-                        <span style="background: black !important;" [ngClass]="{ 'block-cursor': increament == i }"
-                          class="btn btn-sm btn-dark  no-m" (click)="increaseQuant(cart, i)">+</span>
+                        <span
+                          style="background: black !important;"
+                          [ngClass]="{ 'block-cursor': increament == i }"
+                          class="btn btn-sm btn-dark  no-m"
+                          (click)="increaseQuant(cart, i)"
+                          >+</span
+                        >
                       </div>
                     </td>
                     <td class="text-center">{{ cart.sub_total }}</td>
                     <td class="text-center">
-                      <button (click)="removeItem(cart.id)" id="item_id"
-                        class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
+                      <button
+                        (click)="removeItem(cart.id)"
+                        id="item_id"
+                        class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"
+                      >
                         <i class="pe-7s-trash btn-icon-wrapper"></i>
                       </button>
                     </td>
@@ -134,22 +197,38 @@
         <div class="col-lg-4">
           <div class="row border-div-row">
             <div class="col-lg-12">
-              <table class="align-middle mb-0 table table-borderless table-striped table-hover table-bordar">
+              <table
+                class="align-middle mb-0 table table-borderless table-striped table-hover table-bordar"
+              >
                 <tr class="sub-discount border-table-tr">
                   <td class="availableQty">Customer Name</td>
                   <td>
-                    <input id="customer_name" [(ngModel)]="order.customer_name" name="customer_name" type="text"
-                      class="form-control validation-input" placeholder="Customer Name" />
+                    <input
+                      id="customer_name"
+                      [(ngModel)]="order.customer_name"
+                      name="customer_name"
+                      type="text"
+                      class="form-control validation-input"
+                      placeholder="Customer Name"
+                    />
                   </td>
                 </tr>
                 <tr class="sub-discount border-table-tr">
                   <td class="availableQty">Mobile</td>
                   <td>
-                    <input id="customer_mobile" [(ngModel)]="order.customer_mobile" name="customer_mobile" type="text"
-                      class="form-control validation-input" placeholder="Customer Mobile" />
+                    <input
+                      id="customer_mobile"
+                      [(ngModel)]="order.customer_mobile"
+                      name="customer_mobile"
+                      type="text"
+                      class="form-control validation-input"
+                      placeholder="Customer Mobile"
+                    />
                   </td>
                 </tr>
-                <tr class="sub-total swatch-holder swatch-holder-lg bg-asteroid">
+                <tr
+                  class="sub-total swatch-holder swatch-holder-lg bg-asteroid"
+                >
                   <td class="tdLabel">Sub Total</td>
                   <td class="tdValue">{{ order.sub_total }} /-</td>
                 </tr>
@@ -159,29 +238,50 @@
                     <div>
                       <div class="position-relative form-check">
                         <label class="form-check-label">
-                          <input value="fixed" [(ngModel)]="this.order.discount_type" name="discount_type" type="radio"
-                            class="form-check-input" checked (click)="getDiscount('fixed')" />
+                          <input
+                            value="fixed"
+                            [(ngModel)]="this.order.discount_type"
+                            name="discount_type"
+                            type="radio"
+                            class="form-check-input"
+                            checked
+                            (click)="getDiscount('fixed')"
+                          />
                           Fixed
                         </label>
                       </div>
                       <div class="position-relative form-check">
                         <label class="form-check-label">
-                          <input value="parcentage" [(ngModel)]="this.order.discount_type" name="discount_type"
-                            type="radio" class="form-check-input" (click)="getDiscount('parcentage')" />
+                          <input
+                            value="parcentage"
+                            [(ngModel)]="this.order.discount_type"
+                            name="discount_type"
+                            type="radio"
+                            class="form-check-input"
+                            (click)="getDiscount('parcentage')"
+                          />
                           parcentage
                         </label>
                       </div>
                     </div>
                   </td>
                   <td style="width: 50%">
-                    <input type="text" class="form-control" id="discount" name="discount" (input)="getNet()"
-                      [(ngModel)]="order.discount_amount"/>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="discount"
+                      name="discount"
+                      (input)="getNet()"
+                      [(ngModel)]="order.discount_amount"
+                    />
                     <h5 style="display: none" id="dicountValue">
                       {{ order.discount | number: "1.2-2" }} /-
                     </h5>
                   </td>
                 </tr>
-                <tr class="net-total swatch-holder swatch-holder-lg bg-midnight-bloom">
+                <tr
+                  class="net-total swatch-holder swatch-holder-lg bg-midnight-bloom"
+                >
                   <td class="tdLabel">Net Total(Tk.)</td>
                   <td class="tdValue">{{ order.total_payble_amount }} /-</td>
                 </tr>
@@ -198,8 +298,14 @@
                 <tr class="sub-discount border-table-tr">
                   <td class="availableQty">Tendered</td>
                   <td>
-                    <input type="text" class="form-control validation-input" id="tendered" name="tendered"
-                      (input)="getChange()" [(ngModel)]="order.tendered" />
+                    <input
+                      type="text"
+                      class="form-control validation-input"
+                      id="tendered"
+                      name="tendered"
+                      (input)="getChange()"
+                      [(ngModel)]="order.tendered"
+                    />
                   </td>
                 </tr>
                 <tr class="sub-tax border-table-tr tr-due">
@@ -216,12 +322,18 @@
                 </tr>
                 <tr class="submit-background-last border-table-tr">
                   <td>
-                    <button (click)="reset()" class="btn btn-warning mb-0 sale-cancle submit-cancle-btn">
+                    <button
+                      (click)="reset()"
+                      class="btn btn-warning mb-0 sale-cancle submit-cancle-btn"
+                    >
                       Cancle
                     </button>
                   </td>
                   <td>
-                    <button (click)="submitOrder()" class="btn btn-primary mb-0 sale-cancle submit-sale-btn">
+                    <button
+                      (click)="submitOrder()"
+                      class="btn btn-primary mb-0 sale-cancle submit-sale-btn"
+                    >
                       <i class="ace-icon fa fa-archive bigger-110"></i>
                       <span>&nbsp;Confirm</span>
                     </button>
