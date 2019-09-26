@@ -102,7 +102,7 @@ export class SaleListComponent implements OnInit {
     this.returnItem.unit_type = item.unit_type;
     this.saleItem = item;
   }
-  submitReturn(item) {
+  submitReturn() {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
